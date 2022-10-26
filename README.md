@@ -1,24 +1,55 @@
-<img src="https://github.com/codestates-seb/seb39_main_024/blob/main/client/src/images/logo_home.png?raw=true" width="800" height="200"/>
-
 # 🍀 FLYAWAY
-<blockquote>
-      <p dir="auto">개발기간 (2022-09-11 ~ 2022-10-11)<br></p>
-      </blockquote>
-      
-🏋️‍♀️ FLYAWAY는 ‘운동’과 ‘기록’을 결합한 통합 웹서비스 입니다.
 
-🎬 운동 관련 영상을 시청하면서 홈트레이닝을 진행해보세요!
+<img width="927" alt="화면 캡처 2022-10-23 163901" src="https://user-images.githubusercontent.com/95558880/197380263-f787f673-050c-4913-8a0d-f72feb03086d.png">
 
-📅 운동시간은 Flyaway에서 기록 해드리겠습니다!
+### 🏋️‍♀️ 소개
+> FLYAWAY는 ‘운동’과 ‘기록’을 결합한 통합 웹서비스 입니다.
+
+<br>
+
+### 주요 기능 요약
+
+📅 운동 영상을 시청하면서 홈트레이닝을 진행해보세요. 운동시간은 Flyaway에서 기록 해드립니다!
 
 🏆 쌓여가는 기록과 채워지는 캘린더를 보면서 성취감을 느껴보세요!
 
-📄 자신의 운동 노하우나 식단, 일상들을 공유하며 함께 운동해보세요!
+📄 자신의 운동 노하우, 식단, 일상들을 공유하며 함께 운동해보세요!
 
-[FLYAWAY 바로가기](https://flyaway.main024.shop)
 
-## ✅ Team FLYAWAY!
-  
+### 🔗 [FLY-AWAY 바로가기](https://flyaway.main024.shop)  
+
+<br>
+
+
+### ⏰ 개발 기간
+22-09-11 ~ 22-10-11
+
+<br>
+
+### 백엔드 사용 기술
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
+<img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
+<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+<img src="https://img.shields.io/badge/JPA-59666C?style=for-the-badge&logo=hibernate&logoColor=white">
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+<img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=white">
+
+
+<br>
+
+## Commit Message Convention
+- FEAT : 새로운 기능의 추가
+- REFACTOR: 코드 리팩토링
+- TEST: 테스트 코트, 리팩토링 테스트 코드 추가
+
+***
+- Github Project의 칸반보드를 이용한 일정관리
+
+<br>
+
+
+## 👩‍💻Team
+
 <table>
   <tr>
      <td align="center"><a href="https://github.com/slevme"><img src="https://avatars.githubusercontent.com/u/46449090?v=4?s=100" width="100px;" alt=""/><br /><sub><b>@slevme</b></sub></a><br /></td>
@@ -35,29 +66,114 @@
       <td align="center">황보영</td>
       <td align="center">박수연</td>
       <td align="center">배성민</td>
-      <td align="center">⭐️진종국</td>
+      <td align="center">진종국</td>
       </tr>
     
 </table>
 
-## 사용기술스택 
-<img src="https://user-images.githubusercontent.com/104135990/194846766-4a9ffa26-fe71-4aed-a6aa-23c3b9e1c708.png" width="500" height="350"/>
 
-## Client & Server 기술 상세
-[Client README](https://github.com/codestates-seb/seb39_main_024/blob/main/client/README.md)
+<br><br>
 
-[Server README](https://github.com/codestates-seb/seb39_main_024/blob/main/server/README.md)
 
-## Commit Message Convention
-- FEAT : 새로운 기능의 추가
-- REFACTOR: 코드 리팩토링
-- TEST: 테스트 코트, 리팩토링 테스트 코드 추가
 
-***
-- Github Project 탭의 칸반보드를 이용하여 일정관리 예정
-- Discord, Microsoft Teams, Google Meet를 통해 소통
+## 📌담당한 역할
 
-# 공유문서
-### [요구사항정의서](https://ksackr-my.sharepoint.com/:x:/g/personal/hby2233_ks_ac_kr/Eb-kcbnhEqVKmNezrzqrhEUB9wStrivPM_xKllXPyOejfw?e=xCSzFO)
-### [화면정의서](https://www.figma.com/file/aSrMGMtrdEMGiCzG7400C7/[main-project]-화면-만들기?node-id=0%3A1)
-### [테이블명세서](https://docs.google.com/spreadsheets/d/1g31xPBhDgVgAwEFuHcrMhiMb_Crma9F9YNMw2Pe0d6Q/edit#gid=0)
+- ERD 설계
+- 회원 관리 (가입, 수정, 조회, 탈퇴)
+- 인증/인가 (Spring Interceptor + JWT)
+- 운동 시간 기록 및 조회 기능
+- AWS 배포 서버 구축
+
+<br><br>
+
+
+## 📌ERD 설계
+
+<img width="1033" alt="화면 캡처 2022-10-23 170217" src="https://user-images.githubusercontent.com/95558880/197381245-44a3dd02-32c7-4e8c-8b5c-75a9dd31e448.png">
+
+- 게시판과 카테고리는 '하나의 게시글은 하나의 카테고리에만 포함될 수 있다' 라는 요구사항을 반영해 N:1로 매핑했습니다.
+
+<br><br>
+
+
+## 📌테스트 (JUnit)
+
+### 1. 단위 테스트
+
+<img width="494" alt="화면 캡처 2022-10-23 171017" src="https://user-images.githubusercontent.com/95558880/197381522-a7c629ed-183c-41dd-826b-61dea2ccf6c9.png">
+
+<br>
+
+### 2. 시나리오 테스트
+<img width="437" alt="main project member, record large test 2" src="https://user-images.githubusercontent.com/95558880/196962581-fb3ad9b0-9b85-4ead-bb4b-bbe1d713ace7.png">
+
+- 추가적으로 사용자의 유스케이스 테스트를 위해 ```회원 가입 - 운동 기록``` 까지 이어지는 시나리오 테스트를 진행했습니다.
+
+<br><br>
+
+
+
+## 📌API Docs 
+
+[Swagger](https://server.main024.shop/swagger-ui.html)
+
+<img width="1109" alt="main project swagger - login, member" src="https://user-images.githubusercontent.com/95558880/196963723-1f7f7b3a-e8fb-484b-a45e-dcdc923f9c8a.png">
+
+<img width="1085" alt="main project swagger - record, s3, video" src="https://user-images.githubusercontent.com/95558880/196963726-a8a7c9a7-f4dc-42e0-a64b-4c8d25e6e0ce.png">
+
+**API 문서로 Swagger를 사용한 이유**는 다음과 같습니다.
+
+>Swagger는 코드가 애플리케이션에 섞인다는 단점이 존재하지만 크게 영향을 받지 않는다고 생각했고,
+ 수시로 변경될 가능성이 있는 API를 동적으로 빠르게 제공하기 위해 Swagger를 사용했습니다. 
+
+
+
+<br><br>
+
+
+## 📌인증/인가
+
+<br>
+
+> 인증 수단으로써 jwt를 사용했으며, spring interceptor로 사용자 권한을 확인하였습니다.
+
+- refresh token은 만료 시간이 길기 때문에 탈취 당했을 경우 치명적일 수 있습니다.
+따라서 access token만을 반환하고, refresh token은 별도의 DB (Redis)에 보관했습니다.
+
+- access token의 만료시간을 짧게 설정하고, Blacklist를 도입함으로써 '서버가 제어권을 가질 수 없다' 라는 토큰 방식의 단점으로 발생할 수 있는 보안 문제 최소화를 시도했습니다.
+
+이로써 세션의 장점 (서버의 인증수단 제어권 소유) 과 토큰의 장점 (다중 서버환경에 적합)을 최대한 살리려고 노력했습니다.
+
+<br><br>
+
+
+
+## 📌AWS를 이용한 배포
+
+- 프론트엔드 서버는 Vercel에 배포하고, 백엔드 서버는 EC2에 jar 파일을 올려 실행시켰습니다.
+- 도메인을 별도 구입 후, Route 53을 통해 도메인에 대한 Name Server(NS)를 생성했습니다. 
+- Route 53 -> ELB를 통해 백엔드 API 서버로 요청이 연결되도록 했습니다.
+- RDS(MySQL)로 DB를 구성했습니다. 
+- 이미지 저장소로 S3 bucket을 사용했습니다.
+
+<img width="875" alt="image" src="https://user-images.githubusercontent.com/95558880/197531983-0525dc16-d945-4e02-a1fd-521712bdf64d.png">
+
+
+<br><br>
+
+
+## 📌프로젝트에서 특별히 집중한 부분 / 개선한 부분
+
+<br>
+
+- 제 코드가 ```nullsafe``` 하도록 특별히 주의를 기울였습니다.
+  - 이를 위해 자바의 **Optional을 최대한 활용**했습니다.
+
+- ```컨벤션```을 지키려고 노력했습니다.
+  - commit 메시지, 줄바꿈, 네이밍 규칙 등등 **협업**에 필요한 사소한 규칙들을 지키도록 신경썼습니다.
+
+- ```가독성 증진```
+  - 남의 코드를 보는 건 힘든 일입니다. 팀원이 제 코드를 볼때 쉽게 이해할 수 있도록 **리팩토링** 과정을 거쳐 개선했습니다.
+  
+
+<br><br>
