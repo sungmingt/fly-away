@@ -156,7 +156,7 @@
 - RDS(MySQL)로 DB를 구성했습니다. 
 - 이미지 저장소로 S3 bucket을 사용했습니다.
 
-<img width="875" alt="image" src="https://user-images.githubusercontent.com/95558880/197531983-0525dc16-d945-4e02-a1fd-521712bdf64d.png">
+<img width="925" alt="main 배포 구조 그림 2" src="https://user-images.githubusercontent.com/95558880/198229349-73ab8237-d600-4869-b6a0-57a96c4525e7.png">
 
 
 <br><br>
