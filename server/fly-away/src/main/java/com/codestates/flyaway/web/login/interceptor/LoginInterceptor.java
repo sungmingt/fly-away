@@ -3,7 +3,9 @@ package com.codestates.flyaway.web.login.interceptor;
 import com.codestates.flyaway.domain.login.util.JwtUtil;
 import com.codestates.flyaway.domain.member.repository.MemberRepository;
 import com.codestates.flyaway.domain.redis.RedisUtil;
+import com.codestates.flyaway.global.exception.BusinessLogicException;
 import com.codestates.flyaway.global.exception.ErrorResponse;
+import com.codestates.flyaway.global.exception.ExceptionCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import static com.codestates.flyaway.domain.login.util.JwtUtil.*;
+import static com.codestates.flyaway.global.exception.ExceptionCode.*;
 
 @Slf4j
 @Component
@@ -39,8 +42,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         //header 확인
         String header = request.getHeader(AUTHORIZATION);
         if (header == null || !header.startsWith(PREFIX)) {
-            errorResponse(response, "token is missing");
-            return false;
+            throw new BusinessLogicException(REQUIRED_TOKEN_MISSING);
         }
 
         String token = request.getHeader(AUTHORIZATION).replace(PREFIX, "");
@@ -48,8 +50,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         //blacklist 확인
         if (redisUtil.isBlacklist(token)) {
             log.info("### access token from blacklist - {}", token);
-            errorResponse(response, "token from blacklist");
-            return false;
+            throw new BusinessLogicException(TOKEN_FROM_BLACKLIST);
         }
 
         //토큰 검증
@@ -57,15 +58,13 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         if (verified.containsKey(AUTHORIZATION)) {
             response.addHeader(AUTHORIZATION, verified.get(AUTHORIZATION));
-            errorResponse(response, "reissued access token");
-            return false;
+            throw new BusinessLogicException(REISSUED_ACCESS_TOKEN);
         }
 
         //이메일 검증
         String email = verified.get("email");
         if (email == null || !memberRepository.existsByEmail(email)) {
-            errorResponse(response, "email from token not valid");
-            return false;
+            throw new BusinessLogicException(PAYLOAD_NOT_VALID);
         }
 
         if (request.getRequestURI().equals("/logout")) {
@@ -86,15 +85,5 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (ex != null) {
             log.info("exception occurred={}", ex.getMessage());
         }
-    }
-
-    private void errorResponse(HttpServletResponse response, String message) throws IOException {
-
-        ObjectMapper mapper = new ObjectMapper();
-        String error = mapper.writeValueAsString(ErrorResponse.of(HttpStatus.valueOf(401), message));
-
-        response.setStatus(401);
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(error);
     }
 }
