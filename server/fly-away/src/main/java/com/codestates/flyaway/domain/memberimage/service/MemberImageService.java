@@ -3,7 +3,7 @@ package com.codestates.flyaway.domain.memberimage.service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.codestates.flyaway.domain.member.entity.Member;
-import com.codestates.flyaway.domain.memberimage.MemberImage;
+import com.codestates.flyaway.domain.memberimage.entity.MemberImage;
 import com.codestates.flyaway.domain.memberimage.repository.MemberImageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,13 +22,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MemberImageService {
 
-    @Value("${cloud.aws.s3.bucket}/member")
-    private String bucket;
-    @Value("${cloud.aws.s3.default}")
-    private String defaultUrl;
-
     private final AmazonS3 amazonS3;
     private final MemberImageRepository imageRepository;
+
+    @Value("${cloud.aws.s3.bucket}/member")
+    private String bucket;
+
+    @Value("${cloud.aws.s3.default}")
+    private String defaultUrl;
 
     /**
      * S3 이미지 업로드
@@ -36,7 +37,6 @@ public class MemberImageService {
      * @return 생성된 image 객체
      */
     public MemberImage upload(MultipartFile multipartFile) throws IOException {
-
         String fileOriName = multipartFile.getOriginalFilename();
         String s3FileName = UUID.randomUUID().toString() + "-" + fileOriName;
 
@@ -55,7 +55,6 @@ public class MemberImageService {
      * @return 파일 url
      */
     public String getImageUrl(Member member) {
-
         return Optional.ofNullable(member.getMemberImage())
                 .map(MemberImage::getFileUrl)
                 .orElseGet(() -> defaultUrl);

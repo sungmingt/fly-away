@@ -65,6 +65,7 @@ public class CommentService {
 
         return CommentDto.MultiCommentDto.toResponsesDto(commentList);
     }
+
     public void delete(CommentDto.Delete deleteDto) {
 
         Comment comment = findById(deleteDto.getCommentId());

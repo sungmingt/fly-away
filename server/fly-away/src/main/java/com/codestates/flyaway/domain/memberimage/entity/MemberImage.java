@@ -1,4 +1,4 @@
-package com.codestates.flyaway.domain.memberimage;
+package com.codestates.flyaway.domain.memberimage.entity;
 
 import com.codestates.flyaway.domain.member.entity.Member;
 import lombok.Getter;
@@ -31,9 +31,7 @@ public class MemberImage {
         this.fileName = fileName;
     }
 
-
     //=====================
-
 
     public void setMember(Member member) {
         this.member = member;
