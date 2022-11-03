@@ -30,10 +30,13 @@ public class Board extends Auditable {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
+
     @NotNull
     private String title;
+
     @NotNull
     private String content;
+
     private int viewCount;
     private int likeCount;
     private int commentCount;
@@ -80,10 +83,6 @@ public class Board extends Auditable {
         if(boardImage.getBoard() != this) {
             boardImage.setBoard(this);
         }
-    }
-
-    public void setLikes(Likes likes) {
-        this.likes.add(likes);
     }
 
     public void addViewCount() {

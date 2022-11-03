@@ -41,7 +41,6 @@ public class BoardService {
 
     @Transactional
     public BoardResponseDto create(List<MultipartFile> images, BoardDto.Create createDto) {
-
         Category category = categoryService.findById(createDto.getCategoryId());
         Member member = memberService.findById(createDto.getMemberId());
         Board board = new Board(createDto.getTitle(), createDto.getContent());
@@ -55,12 +54,13 @@ public class BoardService {
 
     @Transactional
     public BoardResponseDto update(List<MultipartFile> images, BoardDto.Update updateDto) {
-
         Category category = categoryService.findById(updateDto.getCategoryId());
         final Board board = boardRepository.getReferenceById(updateDto.getBoardId());
+
         if(!Objects.equals(updateDto.getMemberId(), board.getMember().getId())) {
             throw new BusinessLogicException(NOT_AUTHORIZED);
         }
+
         board.setCategory(category);
         board.update(updateDto.getTitle(), updateDto.getContent());
         boardImageService.updateFiles(images, board);
@@ -70,7 +70,6 @@ public class BoardService {
 
     @Transactional
     public BoardResponseDto read(Long boardId) {
-
         Board board = findById(boardId);
         board.addViewCount();
 
@@ -78,7 +77,6 @@ public class BoardService {
     }
 
     public List<MultiBoardDto> readAll(Pageable pageable) {
-
         Page<Board> boardPage = boardRepository.findAll(pageable);
         List<Board> board = boardPage.getContent();
 
@@ -86,7 +84,6 @@ public class BoardService {
     }
 
     public List<MultiBoardDto> readByCategory(Long categoryId, Pageable pageable) {
-
         Page<Board> boardCategory = boardRepository.findAllByCategoryId(categoryId, pageable);
         List<Board> categories = boardCategory.getContent();
 
@@ -95,7 +92,6 @@ public class BoardService {
 
     @Transactional
     public void delete(BoardDto.Delete deleteDto) {
-
         Board board = findById(deleteDto.getBoardId());
         if(!Objects.equals(board.getMember().getId(), deleteDto.getMemberId())) {
             throw new BusinessLogicException(NOT_AUTHORIZED);
@@ -105,18 +101,18 @@ public class BoardService {
     }
 
     public Board findById(Long boardId) {
-
-        return boardRepository.findById(boardId).orElseThrow(() ->
-                new BusinessLogicException(ARTICLE_NOT_FOUND));
+        return boardRepository.findById(boardId).orElseThrow(
+                () -> new BusinessLogicException(ARTICLE_NOT_FOUND));
     }
 
     @Transactional
     public boolean doLike(Long boardId, Long memberId) {
-
         boolean likeResult;
+
         Member member = memberService.findById(memberId);
         Board board = findById(boardId);
         Optional<Likes> savedLikes = likesRepository.findByBoardAndMember(board, member);
+
         if(savedLikes.isPresent()) {
             likesRepository.findByBoardAndMember(board, member).ifPresent(id -> likesRepository.deleteAll());
             board.dislike();
@@ -133,9 +129,9 @@ public class BoardService {
     }
 
     public boolean readLike(Long boardId, Long memberId) {
-
         Member member = memberService.findById(memberId);
         Board board = findById(boardId);
+
         Optional<Likes> savedLikes = likesRepository.findByBoardAndMember(board, member);
         return savedLikes.isPresent();
     }

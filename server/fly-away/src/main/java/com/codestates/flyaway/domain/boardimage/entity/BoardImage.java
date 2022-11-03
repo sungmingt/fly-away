@@ -18,13 +18,14 @@ public class BoardImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String fileOriName;
-    private String fileUrl;
-    private String fileName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
+
+    private String fileOriName;
+    private String fileUrl;
+    private String fileName;
 
     public BoardImage(String fileOriName, String fileUrl, String fileName) {
         this.fileOriName = fileOriName;

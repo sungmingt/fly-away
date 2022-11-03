@@ -32,6 +32,7 @@ public class BoardImageService {
 
     @Value("${cloud.aws.s3.bucket}/board")
     private String bucket;
+
     @Value("${cloud.aws.s3.bucket}/default")
     private String defaultUrl;
 
@@ -76,9 +77,11 @@ public class BoardImageService {
 
         if(multipartFiles != null) {
             List<BoardImage> imageList = boardImageRepository.findAllByBoardId(board.getId());
+
             for (BoardImage boardImage : imageList) {
                 delete(boardImage);
             }
+
             return saveFiles(multipartFiles, board);
         } else return boardImageRepository.findAllByBoardId(board.getId());
     }
@@ -92,21 +95,12 @@ public class BoardImageService {
 
 
     public void delete(BoardImage boardImage) {
-
-//    File file = new File(boardImage.getFileUrl());
-//    if(!file.exists()) {
-//        throw new BusinessLogicException(ExceptionCode.FILE_NOT_FOUND);
-//    }
-//    if(!file.delete()) {
-//        throw new BusinessLogicException(ExceptionCode.FILE_DELETE_FAILED);
-//    }
         boardImageRepository.deleteById(boardImage.getId());
     }
 
     public BoardImageDto findByImageId(Long imageId) {
-
-        BoardImage boardImage = boardImageRepository.findById(imageId).orElseThrow(() ->
-                new BusinessLogicException(FILE_NOT_FOUND));
+        BoardImage boardImage = boardImageRepository.findById(imageId)
+                .orElseThrow(() -> new BusinessLogicException(FILE_NOT_FOUND));
 
         return BoardImageDto.toResponseDto(boardImage);
     }
