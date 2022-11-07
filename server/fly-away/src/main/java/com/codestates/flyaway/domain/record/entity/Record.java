@@ -28,12 +28,10 @@ public class Record {
     private LocalDate date;
     private Long record;
 
-
     public Record(LocalDate date, long record) {
         this.date = date;
         this.record = record;
     }
-
 
     //============================
 

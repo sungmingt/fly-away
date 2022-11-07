@@ -20,7 +20,6 @@ import static org.springframework.http.HttpStatus.*;
 @RestControllerAdvice
 public class GlobalExceptionAdvice {
 
-
     @ExceptionHandler
     @ResponseStatus(BAD_REQUEST)
     public ErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {

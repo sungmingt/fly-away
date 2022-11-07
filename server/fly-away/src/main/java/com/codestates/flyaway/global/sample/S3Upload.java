@@ -1,4 +1,4 @@
-package com.codestates.flyaway.global.util;
+package com.codestates.flyaway.global.sample;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;

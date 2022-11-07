@@ -1,4 +1,4 @@
-package com.codestates.flyaway.global.util;
+package com.codestates.flyaway.global.sample;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +16,6 @@ public class S3Controller {
 
     @PostMapping("/image")
     public String postImage(@RequestPart MultipartFile multipartFile) throws IOException {
-
         return s3Upload.upload(multipartFile);
     }
 }
