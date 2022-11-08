@@ -43,7 +43,7 @@ class LargeTest {
     @Autowired
     private RecordRepository recordRepository;
 
-    @DisplayName("member/record large test")
+    @DisplayName("회원/운동 기능 large test")
     @TestFactory
     Stream<DynamicTest> joinAndLogin() {
         final String name = "jason";
