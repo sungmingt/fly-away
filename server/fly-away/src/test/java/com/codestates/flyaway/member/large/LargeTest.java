@@ -1,7 +1,7 @@
 package com.codestates.flyaway.member.large;
 
 import com.auth0.jwt.JWT;
-import com.codestates.flyaway.domain.login.service.LoginService;
+import com.codestates.flyaway.domain.auth.service.AuthService;
 import com.codestates.flyaway.domain.member.entity.Member;
 import com.codestates.flyaway.domain.member.repository.MemberRepository;
 import com.codestates.flyaway.domain.member.service.MemberService;
@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static com.codestates.flyaway.domain.member.util.MemberUtil.*;
-import static com.codestates.flyaway.web.login.dto.LoginDto.*;
+import static com.codestates.flyaway.web.auth.dto.LoginDto.*;
 import static com.codestates.flyaway.web.member.dto.MemberDto.*;
 import static com.codestates.flyaway.web.record.dto.RecordDto.*;
 import static org.assertj.core.api.Assertions.*;
@@ -35,7 +35,7 @@ class LargeTest {
     private MemberRepository memberRepository;
 
     @Autowired
-    private LoginService loginService;
+    private AuthService authService;
 
     @Autowired
     private RecordService recordService;
@@ -68,7 +68,7 @@ class LargeTest {
                     LoginRequest req = new LoginRequest(email, password);
 
                     //when
-                    String token = loginService.login(req);
+                    String token = authService.login(req).getAccessToken();
                     String accessToken = token.replace("Bearer ", "");
 
                     //then

@@ -1,6 +1,6 @@
-package com.codestates.flyaway.domain.login.service;
+package com.codestates.flyaway.domain.auth.service;
 
-import com.codestates.flyaway.domain.login.util.JwtUtil;
+import com.codestates.flyaway.domain.auth.util.JwtUtil;
 import com.codestates.flyaway.domain.member.entity.Member;
 import com.codestates.flyaway.domain.member.repository.MemberRepository;
 import com.codestates.flyaway.domain.redis.RedisUtil;
@@ -12,19 +12,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static com.codestates.flyaway.domain.member.util.MemberUtil.*;
 import static com.codestates.flyaway.global.exception.ExceptionCode.*;
-import static com.codestates.flyaway.web.login.dto.LoginDto.*;
+import static com.codestates.flyaway.web.auth.dto.LoginDto.*;
 
 @Service
 @Transactional
 @Slf4j
 @RequiredArgsConstructor
-public class LoginService {
+public class AuthService {
 
     private final MemberRepository memberRepository;
     private final JwtUtil jwtUtil;
     private final RedisUtil redisUtil;
 
-    public String login(LoginRequest loginRequest) {
+    public LoginResponse login(LoginRequest loginRequest) {
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
 
@@ -33,13 +33,13 @@ public class LoginService {
 
         //비밀번호 확인
         if (checkPassword(password, member.getPassword())) {
-            log.info("로그인 성공 - {}", member.getEmail());
+            log.info("### 로그인 성공 - {}", member.getEmail());
 
             String accessToken = jwtUtil.createAccessToken(email);
             String refreshToken = jwtUtil.createRefreshToken(email);
             redisUtil.setDataExpire(email, refreshToken);
 
-            return accessToken;
+            return new LoginResponse(accessToken, member.getId());
         }
 
         throw new BusinessLogicException(PASSWORD_NOT_MATCH);
@@ -53,7 +53,7 @@ public class LoginService {
         Long expiration = jwtUtil.getExpiration(accessToken);
         redisUtil.setBlackList(accessToken, expiration);
 
-        log.info("로그아웃 성공 - {}", email);
+        log.info("### 로그아웃 성공 - {}", email);
     }
 
     public Member findByEmail(String email) {

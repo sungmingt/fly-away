@@ -1,18 +1,18 @@
 package com.codestates.flyaway.auth;
 
 import com.auth0.jwt.JWT;
-import com.codestates.flyaway.domain.login.service.LoginService;
-import com.codestates.flyaway.domain.login.util.JwtUtil;
+import com.codestates.flyaway.domain.auth.service.AuthService;
+import com.codestates.flyaway.domain.auth.util.JwtUtil;
 import com.codestates.flyaway.domain.member.entity.Member;
 import com.codestates.flyaway.domain.member.repository.MemberRepository;
 import com.codestates.flyaway.domain.redis.RedisUtil;
-import com.codestates.flyaway.web.login.dto.LoginDto.LoginRequest;
+import com.codestates.flyaway.web.auth.dto.LoginDto.LoginRequest;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.codestates.flyaway.domain.login.util.JwtUtil.EMAIL;
-import static com.codestates.flyaway.domain.login.util.JwtUtil.PREFIX;
+import static com.codestates.flyaway.domain.auth.util.JwtUtil.EMAIL;
+import static com.codestates.flyaway.domain.auth.util.JwtUtil.PREFIX;
 import static com.codestates.flyaway.domain.member.util.MemberUtil.encode;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,7 +23,7 @@ class AuthTest {
     private MemberRepository memberRepository;
 
     @Autowired
-    private LoginService loginService;
+    private AuthService authService;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -45,7 +45,7 @@ class AuthTest {
         LoginRequest request = new LoginRequest( "jordan123@gmail.com", "jd1234!@");
 
         //when
-        String accessToken = loginService.login(request);
+        String accessToken = authService.login(request).getAccessToken();
 
         //then
         String token = accessToken.replace(PREFIX, "");
