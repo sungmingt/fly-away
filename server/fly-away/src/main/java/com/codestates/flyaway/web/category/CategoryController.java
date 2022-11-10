@@ -1,19 +1,18 @@
 package com.codestates.flyaway.web.category;
 
-import com.codestates.flyaway.domain.category.entity.Category;
 import com.codestates.flyaway.domain.category.service.CategoryService;
-import com.codestates.flyaway.global.dto.MultiResponseDto;
-import com.codestates.flyaway.global.dto.SingleResponseDto;
-import com.codestates.flyaway.web.category.dto.CategoryDto;
+import com.codestates.flyaway.web.category.dto.CategoryDto.CategoryResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.codestates.flyaway.web.category.dto.CategoryDto.*;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @Slf4j
@@ -24,32 +23,26 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public CategoryDto.CategoryResponseDto create(@Validated @RequestBody CategoryDto.CreateCategory createCategoryDto) {
-
+    @ResponseStatus(CREATED)
+    public CategoryResponseDto create(@Validated @RequestBody CreateCategory createCategoryDto) {
         return categoryService.create(createCategoryDto);
     }
 
     @PatchMapping("/{categoryId}")
-    public CategoryDto.CategoryResponseDto update(@PathVariable("categoryId") Long categoryId,
-                                 @RequestBody CategoryDto.UpdateCategory updateCategoryDto) {
-
+    public CategoryResponseDto update(@PathVariable("categoryId") Long categoryId,
+                                      @RequestBody UpdateCategory updateCategoryDto) {
         updateCategoryDto.setCategoryId(categoryId);
-
         return categoryService.update(updateCategoryDto);
     }
 
     @GetMapping 
-    public List<CategoryDto.MultiCategoryDto> readCategories(Pageable pageable) {
-
+    public List<MultiCategoryDto> read(Pageable pageable) {
         return categoryService.readAll(pageable);
     }
 
     @DeleteMapping("/{categoryId}")
-    public HttpStatus deleteCategory(@PathVariable("categoryId") Long categoryId) {
-
+    public HttpStatus delete(@PathVariable("categoryId") Long categoryId) {
         categoryService.delete(categoryId);
-
-        return HttpStatus.NO_CONTENT;
+        return NO_CONTENT;
     }
 }
