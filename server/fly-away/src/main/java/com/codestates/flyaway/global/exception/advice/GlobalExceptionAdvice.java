@@ -1,4 +1,4 @@
-package com.codestates.flyaway.global.advice;
+package com.codestates.flyaway.global.exception.advice;
 
 import com.codestates.flyaway.global.exception.BusinessLogicException;
 import com.codestates.flyaway.global.exception.ErrorResponse;
@@ -23,21 +23,18 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler
     @ResponseStatus(BAD_REQUEST)
     public ErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-
         return ErrorResponse.of(e.getBindingResult());
     }
 
     @ExceptionHandler
     @ResponseStatus(BAD_REQUEST)
     public ErrorResponse handleConstraintViolationException(ConstraintViolationException e) {
-
         return ErrorResponse.of(e.getConstraintViolations());
     }
 
     @ExceptionHandler
     public ResponseEntity handleBusinessLogicException(BusinessLogicException e) {
         final ErrorResponse response = ErrorResponse.of(e.getExceptionCode());
-
         return new ResponseEntity<>(response, valueOf(e.getExceptionCode()
                 .getStatus()));
     }
@@ -45,21 +42,18 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler
     @ResponseStatus(METHOD_NOT_ALLOWED)
     public ErrorResponse handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
-
         return ErrorResponse.of(METHOD_NOT_ALLOWED);
     }
 
     @ExceptionHandler
     @ResponseStatus(BAD_REQUEST)
     public ErrorResponse handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-
         return ErrorResponse.of(BAD_REQUEST, "Required request body is missing");
     }
 
     @ExceptionHandler
     @ResponseStatus(BAD_REQUEST)
     public ErrorResponse handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
-
         return ErrorResponse.of(BAD_REQUEST, e.getMessage());
     }
 
