@@ -43,7 +43,7 @@ public class JwtUtil {
     public String createRefreshToken(String email) {
         return JWT.create()
                 .withSubject(SUBJECT)
-                .withExpiresAt(new Date(System.currentTimeMillis() + REFRESH_TOKEN_VALIDATION_SECOND))  ///////////////////////
+                .withExpiresAt(new Date(System.currentTimeMillis() + REFRESH_TOKEN_VALIDATION_SECOND))
                 .withClaim(EMAIL, email)
                 .sign(Algorithm.HMAC512(SECRET_KEY));
     }
@@ -64,7 +64,7 @@ public class JwtUtil {
             //access token 재발급
             String accessToken = createAccessToken(email);
             //기존 refresh token 초기화
-            redisUtil.setDataExpire(email, refreshToken, REFRESH_TOKEN_VALIDATION_SECOND);
+            redisUtil.setDataExpire(email, refreshToken);
 
             return Map.of(AUTHORIZATION, accessToken);
         }

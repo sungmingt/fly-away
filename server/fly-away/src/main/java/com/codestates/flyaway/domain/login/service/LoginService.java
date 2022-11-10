@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.codestates.flyaway.domain.login.util.JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND;
 import static com.codestates.flyaway.domain.member.util.MemberUtil.*;
 import static com.codestates.flyaway.global.exception.ExceptionCode.*;
 import static com.codestates.flyaway.web.login.dto.LoginDto.*;
@@ -38,7 +37,7 @@ public class LoginService {
 
             String accessToken = jwtUtil.createAccessToken(email);
             String refreshToken = jwtUtil.createRefreshToken(email);
-            redisUtil.setDataExpire(email, refreshToken, REFRESH_TOKEN_VALIDATION_SECOND);
+            redisUtil.setDataExpire(email, refreshToken);
 
             return accessToken;
         }

@@ -1,6 +1,6 @@
 package com.codestates.flyaway.domain.redis;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
@@ -9,10 +9,10 @@ import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@RequiredArgsConstructor
 public class RedisUtil {
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private final StringRedisTemplate stringRedisTemplate;
 
     private static final String BLACKLIST = "blacklist_";
 
@@ -26,7 +26,7 @@ public class RedisUtil {
         valueOperations.set(key, value);
     }
 
-    public void setDataExpire(String key, String value, long duration) {
+    public void setDataExpire(String key, String value) {
         ValueOperations<String, String> valueOperations = stringRedisTemplate.opsForValue();
         Duration expireDuration = Duration.ofDays(3);
         valueOperations.set(key, value, expireDuration);
