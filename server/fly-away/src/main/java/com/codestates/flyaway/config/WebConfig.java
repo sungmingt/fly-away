@@ -1,6 +1,6 @@
 package com.codestates.flyaway.config;
 
-import com.codestates.flyaway.web.login.interceptor.LoginInterceptor;
+import com.codestates.flyaway.web.auth.interceptor.LoginInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

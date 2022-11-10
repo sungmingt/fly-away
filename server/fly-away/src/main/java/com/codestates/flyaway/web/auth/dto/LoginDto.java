@@ -1,4 +1,4 @@
-package com.codestates.flyaway.web.login.dto;
+package com.codestates.flyaway.web.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +17,7 @@ public class LoginDto {
     @Getter
     @AllArgsConstructor @NoArgsConstructor
     public static class LoginResponse {
-        private String message;
+        private String accessToken;
+        private Long memberId;
     }
 }

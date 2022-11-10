@@ -1,26 +1,21 @@
-package com.codestates.flyaway.web.login.interceptor;
+package com.codestates.flyaway.web.auth.interceptor;
 
-import com.codestates.flyaway.domain.login.util.JwtUtil;
+import com.codestates.flyaway.domain.auth.util.JwtUtil;
 import com.codestates.flyaway.domain.member.repository.MemberRepository;
 import com.codestates.flyaway.domain.redis.RedisUtil;
 import com.codestates.flyaway.global.exception.BusinessLogicException;
-import com.codestates.flyaway.global.exception.ErrorResponse;
-import com.codestates.flyaway.global.exception.ExceptionCode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Map;
 
-import static com.codestates.flyaway.domain.login.util.JwtUtil.*;
+import static com.codestates.flyaway.domain.auth.util.JwtUtil.*;
 import static com.codestates.flyaway.global.exception.ExceptionCode.*;
 
 @Slf4j
