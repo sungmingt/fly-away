@@ -17,12 +17,11 @@ public class VideoController {
     @PostMapping("/video")
     public String addRecent(@RequestBody AddRequest request) {
         videoService.addRecent(request);
-        return "시청 기록 저장";
+        return "시청 기록 저장 완료";
     }
 
     @GetMapping("/members/{memberId}/video")
     public ListResponse getRecent(@PathVariable long memberId) {
-
         List<VideoList> videoList = videoService.getRecent(memberId);
         return new ListResponse(videoList);
     }

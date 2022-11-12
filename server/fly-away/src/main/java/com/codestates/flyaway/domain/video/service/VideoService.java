@@ -23,8 +23,11 @@ public class VideoService {
     private final VideoRepository videoRepository;
     private final MemberService memberService;
 
+    /**
+     * 영상 시청 -> 최근 영상 목록 업데이트
+     * @param request
+     */
     public void addRecent(AddRequest request) {
-
         Member member = memberService.findById(request.getMemberId());
 
         Video video = new Video(request.getVideoId(), request.getTitle(), request.getUrl(), member);
@@ -34,11 +37,14 @@ public class VideoService {
         videoRepository.save(video);
     }
 
+    /**
+     * 최근 영상 목록 조회
+     * @param memberId
+     */
     public List<VideoList> getRecent(long memberId) {
-
         return videoRepository.findRecent(memberId)
                 .stream()
-                .map(video -> new VideoList(video.getVideoId(), video.getTitle(), video.getUrl()))
+                .map(VideoList::toVideoList)
                 .collect(Collectors.toList());
     }
 }
