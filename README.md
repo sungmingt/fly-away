@@ -162,6 +162,20 @@
 <br><br>
 
 
+## 📌패키지 구조
+
+<img width="510" alt="image" src="https://user-images.githubusercontent.com/95558880/201260668-7c3a4756-66cf-4d60-b655-ad44d3ba15f7.png">
+
+- 패키지는 ```domain```과 ```web```으로 디렉토리를 세분화하고, 하위에 도메인 단위로 분리하여 관리하는 방식을 사용했습니다.
+  - web 영역은 domain 영역에 비해 상대적으로 변화가 잦습니다. 
+  - 따라서 web은 domain을 알되 domain은 web을 모르도록 하는 **단방향 의존관계**를 구현해야하기 때문에, domain과 web을 분리하여 관리하는 것이 효율적이라고 생각해 이 방식을 선택했습니다.
+
+- 전역으로 사용되는 EntityListener, exception 등은 ```global 패키지```로 분리했습니다.
+
+
+<br><br>
+
+
 ## 📌프로젝트에서 특별히 집중한 부분 / 개선한 부분
 
 <br>
@@ -177,3 +191,5 @@
   
 
 <br><br>
+
+
