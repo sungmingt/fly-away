@@ -44,7 +44,7 @@ public class MemberImageService {
         objMeta.setContentLength(multipartFile.getInputStream().available());
 
         amazonS3.putObject(bucket, s3FileName, multipartFile.getInputStream(), objMeta);
-        log.info("파일 업로드 성공 = {}", s3FileName);
+        log.info("### 파일 업로드 성공 = {}", s3FileName);
 
         String s3Url = amazonS3.getUrl(bucket, s3FileName).toString();
         return new MemberImage(fileOriName, s3Url, s3FileName);

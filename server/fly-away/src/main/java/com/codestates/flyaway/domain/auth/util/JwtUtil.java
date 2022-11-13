@@ -1,4 +1,4 @@
-package com.codestates.flyaway.domain.login.util;
+package com.codestates.flyaway.domain.auth.util;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -57,7 +57,6 @@ public class JwtUtil {
             //refresh token 만료 확인 -> 강제 로그아웃
             if (refreshToken == null) {
                 log.info("### refresh token expired - {}", email);
-
                 throw new BusinessLogicException(REFRESH_TOKEN_EXPIRED);
             }
 
