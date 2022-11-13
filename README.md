@@ -106,8 +106,9 @@
 
 ### 2. 시나리오 테스트
 <img width="437" alt="main project member, record large test 2" src="https://user-images.githubusercontent.com/95558880/196962581-fb3ad9b0-9b85-4ead-bb4b-bbe1d713ace7.png">
+<img width="544" alt="main auth test 성공 2" src="https://user-images.githubusercontent.com/95558880/201518352-cd651312-cd69-41f3-b7db-a6259a87c5ce.png">
 
-- 추가적으로 사용자의 유스케이스 테스트를 위해 ```회원 가입 - 운동 기록``` 까지 이어지는 시나리오 테스트를 진행했습니다.
+- 추가적으로 사용자의 유스케이스를 테스트하기 위해 ```회원 가입 - 운동 기록``` 까지 이어지는 시나리오 테스트를 진행했습니다.
 
 <br><br>
 
@@ -150,7 +151,7 @@
 
 ## 📌AWS를 이용한 배포
 
-- 프론트엔드 서버는 Vercel에 배포하고, 백엔드 서버는 EC2에 jar 파일을 올려 실행시켰습니다.
+- 프론트엔드 서버는 Vercel에 배포하고, 백엔드 서버는 EC2에 jar 파일을 올려 실행시킵니다.
 - 도메인을 별도 구입 후, Route 53을 통해 도메인에 대한 Name Server(NS)를 생성했습니다. 
 - Route 53 -> ELB를 통해 백엔드 API 서버로 요청이 연결되도록 했습니다.
 - RDS(MySQL)로 DB를 구성했습니다. 
@@ -170,7 +171,7 @@
   - web 영역은 domain 영역에 비해 상대적으로 변화가 잦습니다. 
   - 따라서 web은 domain을 알되 domain은 web을 모르도록 하는 **단방향 의존관계**를 구현해야하기 때문에, domain과 web을 분리하여 관리하는 것이 효율적이라고 생각해 이 방식을 선택했습니다.
 
-- 전역으로 사용되는 EntityListener, exception 등은 ```global 패키지```로 분리했습니다.
+- 전역으로 사용되는 entityListener, exception 등은 ```global``` 패키지로 분리했습니다.
 
 
 <br><br>
