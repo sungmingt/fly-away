@@ -113,7 +113,7 @@ class LargeTest {
                     //when
                     memberService.update(req);
 
-                    //then    변경감지가 db에 반영이 안된 것 같은데 테스트에 성공했다... 뭐지??
+                    //then
                     Member member = memberRepository.findById(1L).get();
 
                     assertThat(member.getName()).isEqualTo(req.getName());

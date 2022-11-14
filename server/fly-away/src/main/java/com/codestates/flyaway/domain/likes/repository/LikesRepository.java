@@ -1,7 +1,8 @@
-package com.codestates.flyaway.domain.likes;
+package com.codestates.flyaway.domain.likes.repository;
 
 
 import com.codestates.flyaway.domain.board.entity.Board;
+import com.codestates.flyaway.domain.likes.entity.Likes;
 import com.codestates.flyaway.domain.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 

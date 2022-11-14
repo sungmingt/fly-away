@@ -1,4 +1,4 @@
-package com.codestates.flyaway.web.comment;
+package com.codestates.flyaway.web.comment.controller;
 
 import com.codestates.flyaway.domain.comment.service.CommentService;
 import com.codestates.flyaway.web.comment.dto.CommentDto;

@@ -1,4 +1,4 @@
-package com.codestates.flyaway.web.category;
+package com.codestates.flyaway.web.category.controller;
 
 import com.codestates.flyaway.domain.category.service.CategoryService;
 import com.codestates.flyaway.web.category.dto.CategoryDto.CategoryResponseDto;

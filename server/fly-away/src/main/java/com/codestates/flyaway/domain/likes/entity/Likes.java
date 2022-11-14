@@ -1,4 +1,4 @@
-package com.codestates.flyaway.domain.likes;
+package com.codestates.flyaway.domain.likes.entity;
 
 import com.codestates.flyaway.domain.board.entity.Board;
 import com.codestates.flyaway.domain.member.entity.Member;

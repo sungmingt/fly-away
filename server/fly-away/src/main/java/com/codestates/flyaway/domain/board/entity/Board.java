@@ -3,7 +3,7 @@ package com.codestates.flyaway.domain.board.entity;
 import com.codestates.flyaway.domain.boardimage.entity.BoardImage;
 import com.codestates.flyaway.domain.category.entity.Category;
 import com.codestates.flyaway.domain.comment.entity.Comment;
-import com.codestates.flyaway.domain.likes.Likes;
+import com.codestates.flyaway.domain.likes.entity.Likes;
 import com.codestates.flyaway.domain.member.entity.Member;
 import com.codestates.flyaway.global.audit.Auditable;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 
 import java.util.ArrayList;
 import java.util.HashSet;

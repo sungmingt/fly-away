@@ -1,4 +1,4 @@
-package com.codestates.flyaway.web.board;
+package com.codestates.flyaway.web.board.controller;
 
 import com.codestates.flyaway.domain.board.service.BoardService;
 import com.codestates.flyaway.domain.boardimage.service.BoardImageService;
