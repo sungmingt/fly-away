@@ -39,7 +39,7 @@ public class AuthService {
             String refreshToken = jwtUtil.createRefreshToken(email);
             redisUtil.setDataExpire(email, refreshToken);
 
-            return new LoginResponse(accessToken, member.getId());
+            return new LoginResponse(accessToken, String.valueOf(member.getId()));
         }
 
         throw new BusinessLogicException(PASSWORD_NOT_MATCH);

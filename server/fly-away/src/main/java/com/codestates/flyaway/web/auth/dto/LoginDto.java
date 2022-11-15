@@ -18,6 +18,6 @@ public class LoginDto {
     @AllArgsConstructor @NoArgsConstructor
     public static class LoginResponse {
         private String accessToken;
-        private Long memberId;
+        private String memberId;
     }
 }

@@ -29,7 +29,6 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
         if (HttpMethod.OPTIONS.matches(request.getMethod())) {
             return true;
         }
@@ -57,14 +56,14 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
 
         //이메일 검증
-        String email = verified.get("email");
+        String email = verified.get(EMAIL);
         if (email == null || !memberRepository.existsByEmail(email)) {
             throw new BusinessLogicException(PAYLOAD_NOT_VALID);
         }
 
         if (request.getRequestURI().equals("/logout")) {
             log.info("### logout interceptor - {}", email);
-            request.setAttribute("email", email);
+            request.setAttribute(EMAIL, email);
         }
 
         return true;
@@ -78,7 +77,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         if (ex != null) {
-            log.info("exception occurred={}", ex.getMessage());
+            log.info("### exception occurred={}", ex.getMessage());
         }
     }
 }
