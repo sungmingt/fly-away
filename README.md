@@ -177,6 +177,41 @@
 <br><br>
 
 
+## 📌예외 처리
+
+
+- ```커스텀 exception code, errorResponse```를 정의하고 @RestControllerAdvice를 통해 exception handling을 구현했습니다.
+- web 영역의 DTO 검증에는 ```Bean Validation```을 적용했습니다.
+
+````http response
+HTTP/1.1 400
+Content-Type: application/json
+
+{
+    "status": 400,
+    "message": null,
+    "fieldErrors": [
+        {
+            "field": "email",
+            "rejectedValue": "memb1gmail.com",
+            "reason": "올바른 형식의 이메일 주소여야 합니다"
+        },
+        {
+            "field": "password",
+            "rejectedValue": "",
+            "reason": "비어 있을 수 없습니다"
+        }
+    ],
+    "violationErrors": null
+}
+````
+
+
+
+<br><br>
+
+
+
 ## 📌프로젝트에서 특별히 집중한 부분 / 개선한 부분
 
 <br>
