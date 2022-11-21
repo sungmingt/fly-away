@@ -12,10 +12,10 @@ public enum ExceptionCode {
 
     //TOKEN
     REFRESH_TOKEN_EXPIRED(401, "refresh token 만료, 강제 로그아웃"),
-    REQUIRED_TOKEN_MISSING(401, "token is missing"),
-    TOKEN_FROM_BLACKLIST(401, "token from blacklist"),
-    REISSUED_ACCESS_TOKEN(401, "reissued access token"),
-    PAYLOAD_NOT_VALID(401, "email from token not valid"),
+    REQUIRED_TOKEN_MISSING(401, "토큰이 존재하지 않습니다."),
+    TOKEN_FROM_BLACKLIST(401, "blacklist에 등록된 토큰입니다."),
+    REISSUED_ACCESS_TOKEN(401, "토큰을 재발급합니다."),
+    PAYLOAD_NOT_VALID(401, "토큰의 payload가 유효하지 않습니다."),
 
     //USER INFO
     EMAIL_ALREADY_EXISTS(409, "이미 존재하는 이메일입니다."),
@@ -36,11 +36,11 @@ public enum ExceptionCode {
     CATEGORY_NOT_FOUND(404, "존재하지 않는 카테고리 입니다.");
 
     @Getter
-    private int status;
+    private final int status;
     @Getter
-    private String message;
+    private final String message;
 
-    ExceptionCode(int code, String message){
+    ExceptionCode(final int code, final String message){
         this.status = code;
         this.message = message;
     }

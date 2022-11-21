@@ -32,10 +32,11 @@ public class MemberDto {
             return new Member(this.name, this.email, this.password);
         }
     }
+
     @Getter
     @NoArgsConstructor @AllArgsConstructor
     public static class JoinResponse {
-        private Long memberId;
+        private Long id;
         private String name;
         private String email;
         private LocalDateTime createdAt;
@@ -78,7 +79,7 @@ public class MemberDto {
 
     @Getter
     @NoArgsConstructor @AllArgsConstructor
-    public static class UpdateResponse {  // todo : 재사용 고려
+    public static class UpdateResponse {
         private Long memberId;
         private String name;
         private String email;
@@ -95,6 +96,7 @@ public class MemberDto {
         private Long memberId;
         private String name;
         private String email;
+        private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }
 }

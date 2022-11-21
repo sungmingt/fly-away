@@ -4,6 +4,7 @@ import com.codestates.flyaway.domain.auth.service.AuthService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +24,7 @@ public class AuthController {
 
     @ApiOperation(value = "로그인 API")
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
+    public String login(@RequestBody @Validated LoginRequest loginRequest, HttpServletResponse response) {
         LoginResponse loginInfo = authService.login(loginRequest);
 
         response.addHeader("memberId", loginInfo.getMemberId());
