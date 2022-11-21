@@ -2,19 +2,20 @@ package com.codestates.flyaway.domain.likes.entity;
 
 import com.codestates.flyaway.domain.board.entity.Board;
 import com.codestates.flyaway.domain.member.entity.Member;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static javax.persistence.GenerationType.*;
+
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 public class Likes {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long likeId;
 
     @ManyToOne
@@ -25,7 +26,6 @@ public class Likes {
     @JoinColumn(name = "memberId")
     private Member member;
 
-    @Builder
     public Likes(Board board, Member member) {
         this.board = board;
         this.member = member;

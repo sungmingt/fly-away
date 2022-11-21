@@ -4,22 +4,23 @@ import com.codestates.flyaway.domain.board.entity.Board;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.*;
+import static javax.persistence.GenerationType.*;
+
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class BoardImage {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
 
@@ -32,6 +33,8 @@ public class BoardImage {
         this.fileUrl = fileUrl;
         this.fileName = fileName;
     }
+
+    //========================
 
     public void setBoard(Board board) {
         this.board = board;

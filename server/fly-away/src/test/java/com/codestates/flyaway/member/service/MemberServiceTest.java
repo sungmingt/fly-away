@@ -45,7 +45,7 @@ class MemberServiceTest {
         JoinRequest request = new JoinRequest("김코딩", "kimcode@gmail.com", "asdf123!");
 
         given(memberRepository.save(any(Member.class)))
-                .willReturn(request.toEntity());
+                .willReturn(request.toMember());
 
         //when
         JoinResponse response = memberService.join(request);

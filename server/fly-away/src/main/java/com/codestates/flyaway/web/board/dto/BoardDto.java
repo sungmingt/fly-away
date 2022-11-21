@@ -16,12 +16,9 @@ import java.util.stream.Collectors;
 @Getter
 public class BoardDto {
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
+    @Getter @Setter
+    @AllArgsConstructor @NoArgsConstructor
     public static class Create {
-
         private Long memberId;
         private Long categoryId;
         @NotBlank
@@ -30,12 +27,9 @@ public class BoardDto {
         private String content;
     }
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
+    @Getter @Setter
+    @AllArgsConstructor @NoArgsConstructor
     public static class Update {
-
         private Long memberId;
         private Long categoryId;
         @Nullable
@@ -46,22 +40,17 @@ public class BoardDto {
         private String content;
     }
 
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
+    @Getter @Setter
+    @NoArgsConstructor @AllArgsConstructor
     public static class Delete {
-
         private Long memberId;
         private Long boardId;
     }
 
 
     @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
+    @AllArgsConstructor @NoArgsConstructor
     public static class BoardResponseDto {
-
         private Long memberId;
         private String memberName;
         private Long categoryId;
@@ -74,7 +63,6 @@ public class BoardDto {
         private LocalDateTime createdAt;
 
         public static BoardResponseDto toResponseDto(Board board){
-
             return new BoardResponseDto(
                     board.getMember().getId(),
                     board.getMember().getName(),
@@ -90,10 +78,8 @@ public class BoardDto {
     }
 
     @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
+    @AllArgsConstructor @NoArgsConstructor
     public static class MultiBoardDto {
-
         private String memberName;
         private Long boardId;
         private String title;
@@ -104,7 +90,6 @@ public class BoardDto {
         private int likeCount;
 
         public static List<MultiBoardDto> toResponsesDto(List<Board> boards) {
-
             return boards.stream()
                     .map(board -> new MultiBoardDto(
                             board.getMember().getName(),

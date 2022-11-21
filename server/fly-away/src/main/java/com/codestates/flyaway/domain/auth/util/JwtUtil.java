@@ -32,6 +32,9 @@ public class JwtUtil {
     public static final long ACCESS_TOKEN_VALIDATION_SECOND = 1000L * 60 * 30;  //30분
     public static final long REFRESH_TOKEN_VALIDATION_SECOND = 1000L * 60 * 60 * 24 * 3;  //3일
 
+    /**
+     * access token 생성
+     */
     public String createAccessToken(String email) {
         return PREFIX + JWT.create()
                 .withSubject(SUBJECT)
@@ -40,6 +43,9 @@ public class JwtUtil {
                 .sign(Algorithm.HMAC512(SECRET_KEY));
     }
 
+    /**
+     * refresh token 생성
+     */
     public String createRefreshToken(String email) {
         return JWT.create()
                 .withSubject(SUBJECT)
@@ -48,6 +54,9 @@ public class JwtUtil {
                 .sign(Algorithm.HMAC512(SECRET_KEY));
     }
 
+    /**
+     * 토큰 검증
+     */
     public Map<String, String> verifyToken(String token) {
         //토큰 만료 확인
         if (isExpired(token)) {
@@ -76,6 +85,9 @@ public class JwtUtil {
                         .asString());
     }
 
+    /**
+     * 만료 여부 확인
+     */
     private boolean isExpired(String token) {
         return JWT.decode(token).getExpiresAt().before(new Date());
     }

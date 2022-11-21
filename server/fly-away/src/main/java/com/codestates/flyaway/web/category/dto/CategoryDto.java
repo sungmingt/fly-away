@@ -17,7 +17,6 @@ public class CategoryDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class CreateCategory {
-
         @NotBlank
         private String categoryName;
     }
@@ -27,7 +26,6 @@ public class CategoryDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class UpdateCategory {
-
         private Long categoryId;
         @NotBlank
         private String categoryName;
@@ -37,12 +35,10 @@ public class CategoryDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class CategoryResponseDto {
-
         private Long categoryId;
         private String categoryName;
 
         public static CategoryResponseDto toResponseDto(Category category) {
-
             return new CategoryResponseDto(
                     category.getId(),
                     category.getCategoryName());
@@ -53,12 +49,10 @@ public class CategoryDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class MultiCategoryDto {
-
         private Long categoryId;
         private String categoryName;
 
         public static List<MultiCategoryDto> toResponsesDto(List<Category> categories) {
-
             return categories.stream()
                     .map(category -> new MultiCategoryDto(
                             category.getId(),

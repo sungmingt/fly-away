@@ -26,11 +26,13 @@ public class Record {
     private Member member;
 
     private LocalDate date;
-    private Long record;
 
-    public Record(LocalDate date, long record) {
+    @Column(name = "record")
+    private Long rec;
+
+    public Record(LocalDate date, long rec) {
         this.date = date;
-        this.record = record;
+        this.rec = rec;
     }
 
     //============================
@@ -42,7 +44,7 @@ public class Record {
     }
 
     //운동시간 추가
-    public void addRecord(long record) {
-        this.record += record;
+    public void addRecord(long rec) {
+        this.rec += rec;
     }
 }

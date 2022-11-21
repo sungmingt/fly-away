@@ -10,8 +10,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
+import static com.codestates.flyaway.web.comment.dto.CommentDto.*;
 import static org.springframework.http.HttpStatus.*;
 
 @RestController
@@ -23,33 +25,33 @@ public class CommentController {
 
     @PostMapping("/{boardId}/comment")
     @ResponseStatus(CREATED)
-    public CommentResponseDto write(@PathVariable("boardId") Long boardId,
-                                    @RequestBody CommentDto.Write writeDto) {
+    public CommentResponseDto write(@NotEmpty @PathVariable("boardId") Long boardId,
+                                    @RequestBody Write writeDto) {
         writeDto.setBoardId(boardId);
         return commentService.write(writeDto);
     }
 
     @PatchMapping("/{boardId}/comment/{commentId}")
-    public CommentResponseDto update(@PathVariable("boardId") Long boardId,
+    public CommentResponseDto update(@NotEmpty @PathVariable("boardId") Long boardId,
                                      @PathVariable("commentId") Long commentId,
-                                     @RequestBody CommentDto.Update updateDto) {
+                                     @RequestBody Update updateDto) {
         updateDto.setCommentId(commentId);
         return commentService.update(updateDto);
     }
 
     @GetMapping("/{boardId}/comment")
-    public List<CommentDto.MultiCommentDto> read(@PathVariable("boardId") Long boardId,
-                                                 @PageableDefault(sort = "id", direction = Sort.Direction.DESC)
+    public List<MultiCommentDto> read(@NotEmpty @PathVariable("boardId") Long boardId,
+                                      @PageableDefault(sort = "id", direction = Sort.Direction.DESC)
                                                  Pageable pageable) {
         return commentService.readByBoardId(boardId, pageable);
     }
 
     @DeleteMapping("/{boardId}/comment/{commentId}")
-    public HttpStatus delete(@PathVariable("commentId") Long commentId,
-                             @RequestBody CommentDto.Delete deleteDto) {
+    public HttpStatus delete(@NotEmpty @PathVariable("commentId") Long commentId,
+                             @RequestBody Delete deleteDto) {
         deleteDto.setCommentId(commentId);
-        commentService.delete(deleteDto);
 
+        commentService.delete(deleteDto);
         return NO_CONTENT;
     }
 }

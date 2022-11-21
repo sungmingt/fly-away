@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.codestates.flyaway.global.exception.ExceptionCode.FILE_NOT_FOUND;
+import static com.codestates.flyaway.web.board.dto.BoardImageDto.toResponseDto;
 
 @Service
 @Transactional
@@ -39,12 +40,13 @@ public class BoardImageService {
     BoardImage defaultImage = new BoardImage("default", "fly-away-bucket/default", "defaultboard.jpg");
 
     public BoardImage saveFile(MultipartFile multipartFile, Board board) throws IOException {
-
         String originalFileName = multipartFile.getOriginalFilename();
         String s3FileName = UUID.randomUUID() + "-" + multipartFile.getOriginalFilename();
+
         ObjectMetadata objMeta = new ObjectMetadata();
         objMeta.setContentLength(multipartFile.getInputStream().available());
         amazonS3.putObject(bucket, s3FileName, multipartFile.getInputStream(), objMeta);
+
         BoardImage boardImage = new BoardImage(originalFileName, bucket, s3FileName);
         boardImageRepository.save(boardImage);
         boardImage.setBoard(board);
@@ -53,8 +55,8 @@ public class BoardImageService {
     }
 
     public List<BoardImage> saveFiles(List<MultipartFile> multipartFiles, Board board) {
-
         List<BoardImage> saveFileResult = new ArrayList<>();
+
         if(multipartFiles == null) {
             BoardImage boardImage = defaultImage;
             saveFileResult.add(boardImage);
@@ -74,7 +76,6 @@ public class BoardImageService {
     }
 
     public List<BoardImage> updateFiles(List<MultipartFile> multipartFiles, Board board) {
-
         if(multipartFiles != null) {
             List<BoardImage> imageList = boardImageRepository.findAllByBoardId(board.getId());
 
@@ -87,12 +88,9 @@ public class BoardImageService {
     }
 
     public String getImage(Long imageId) {
-
         BoardImageDto boardImageDto = findByImageId(imageId);
-
         return amazonS3.getUrl(boardImageDto.getFileUrl(), boardImageDto.getFileName()).toString();
     }
-
 
     public void delete(BoardImage boardImage) {
         boardImageRepository.deleteById(boardImage.getId());
@@ -102,6 +100,6 @@ public class BoardImageService {
         BoardImage boardImage = boardImageRepository.findById(imageId)
                 .orElseThrow(() -> new BusinessLogicException(FILE_NOT_FOUND));
 
-        return BoardImageDto.toResponseDto(boardImage);
+        return toResponseDto(boardImage);
     }
 }

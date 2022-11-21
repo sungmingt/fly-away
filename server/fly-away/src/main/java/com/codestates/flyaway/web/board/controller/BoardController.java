@@ -14,7 +14,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
+
+import static com.codestates.flyaway.web.board.dto.BoardDto.*;
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
 
 
 @RestController
@@ -26,72 +31,61 @@ public class BoardController {
     private final BoardService boardService;
     private final BoardImageService boardImageService;
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(value = "/{categoryId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public BoardDto.BoardResponseDto create(@PathVariable("categoryId") Long categoryId,
+    @ResponseStatus(CREATED)
+    @PostMapping(value = "/{categoryId}",consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
+    public BoardResponseDto create(@PathVariable("categoryId") Long categoryId,
                                    @RequestPart(value = "image",required = false) List<MultipartFile> images,
-                                   @Validated @RequestPart BoardDto.Create createDto) {
-
+                                   @Validated @RequestPart Create createDto) {
         createDto.setCategoryId(categoryId);
-
         return boardService.create(images, createDto);
     }
 
     @PatchMapping("/{boardId}")
-    public BoardDto.BoardResponseDto update(@PathVariable("boardId") Long boardId,
-                                    @RequestPart(value = "image",required = false) List<MultipartFile> images,
-                                    @Validated @RequestPart BoardDto.Update updateDto) {
-
+    public BoardResponseDto update(@NotEmpty @PathVariable("boardId") Long boardId,
+                                   @RequestPart(value = "image",required = false) List<MultipartFile> images,
+                                   @Validated @RequestPart Update updateDto) {
         updateDto.setBoardId(boardId);
-
         return boardService.update(images, updateDto);
     }
 
     @GetMapping("/{boardId}")
-    public BoardDto.BoardResponseDto read(@PathVariable("boardId") Long boardId) {
-
+    public BoardResponseDto read(@NotEmpty @PathVariable("boardId") Long boardId) {
         return boardService.read(boardId);
     }
 
     @GetMapping("/all")
-    public List<BoardDto.MultiBoardDto> readAll(@PageableDefault(sort = "id", direction = Sort.Direction.DESC)
-                                      Pageable pageable) {
-
+    public List<MultiBoardDto> readAll(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         return boardService.readAll(pageable);
     }
 
     @GetMapping
-    public List<BoardDto.MultiBoardDto> readByCategory(@RequestParam Long categoryId, Pageable pageable) {
-
+    public List<MultiBoardDto> readByCategory(@RequestParam Long categoryId, Pageable pageable) {
         return boardService.readByCategory(categoryId, pageable);
     }
 
     @DeleteMapping("/{boardId}")
-    public HttpStatus delete(@PathVariable("boardId") Long boardId,
-                             @RequestBody BoardDto.Delete deleteDto) {
-
+    public HttpStatus delete(@NotEmpty @PathVariable("boardId") Long boardId,
+                             @RequestBody Delete deleteDto) {
         deleteDto.setBoardId(boardId);
-        boardService.delete(deleteDto);
 
-        return HttpStatus.NO_CONTENT;
+        boardService.delete(deleteDto);
+        return NO_CONTENT;
     }
 
     @GetMapping("/image/{imageId}")
-    public String getImage(@PathVariable Long imageId) {
-
+    public String getImage(@NotEmpty @PathVariable Long imageId) {
         return boardImageService.getImage(imageId);
     }
 
     @PostMapping("/{boardId}/like")
     public boolean doLike(@PathVariable("boardId") Long boardId,
-                       @RequestParam Long memberId) {
-
+                          @RequestParam Long memberId) {
         return boardService.doLike(boardId, memberId);
     }
 
     @GetMapping("/{boardId}/checklike")
-    public boolean isCheck(@PathVariable("boardId") Long boardId,
-                            @RequestParam Long memberId) {
+    public boolean isCheck(@NotEmpty @PathVariable("boardId") Long boardId,
+                           @RequestParam Long memberId) {
         return boardService.readLike(boardId, memberId);
     }
 }

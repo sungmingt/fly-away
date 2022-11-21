@@ -28,7 +28,7 @@ public class MemberDto {
         @NotEmpty
         private String password;
 
-        public Member toEntity() {
+        public Member toMember() {
             return new Member(this.name, this.email, this.password);
         }
     }
@@ -62,7 +62,7 @@ public class MemberDto {
                     member.getEmail(),
                     member.getRecords()
                             .stream()
-                            .map(record -> new RecordProfileResponse(record.getDate(), record.getRecord()))
+                            .map(record -> new RecordProfileResponse(record.getDate(), record.getRec()))
                             .collect(Collectors.toList()),
                     totalRecord);
         }

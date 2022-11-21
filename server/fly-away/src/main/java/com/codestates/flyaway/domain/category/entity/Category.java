@@ -9,18 +9,21 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.*;
+import static javax.persistence.GenerationType.*;
+
+@Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String categoryName;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", cascade = ALL)
     private List<Board> boards = new ArrayList<>();
 
     public Category(String categoryName) {

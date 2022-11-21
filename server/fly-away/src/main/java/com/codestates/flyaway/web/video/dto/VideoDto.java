@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Getter
@@ -13,9 +15,14 @@ public class VideoDto {
     @Getter
     @NoArgsConstructor @AllArgsConstructor
     public static class AddRequest{
+        @NotEmpty
+        @Positive
         private long memberId;
+        @NotEmpty
         private String videoId;
+        @NotEmpty
         private String title;
+        @NotEmpty
         private String url;
     }
 

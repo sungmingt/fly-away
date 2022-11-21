@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotEmpty;
+
 import static com.codestates.flyaway.web.member.dto.MemberDto.*;
 import static org.springframework.http.HttpStatus.*;
 
@@ -25,28 +27,27 @@ public class MemberController {
 
     @ApiOperation(value = "회원 정보 수정")
     @PatchMapping("/{memberId}")
-    public UpdateResponse update(@PathVariable long memberId,
+    public UpdateResponse update(@NotEmpty @PathVariable long memberId,
                                  @Validated UpdateRequest updateRequest) {
-
         updateRequest.setMemberId(memberId);
         return memberService.update(updateRequest);
     }
 
     @ApiOperation(value = "회원 프로필 이미지 API")
     @GetMapping(value = "/{memberId}/image")
-    public String getImage(@PathVariable long memberId) {
+    public String getImage(@NotEmpty @PathVariable long memberId) {
         return memberService.getImageUrl(memberId);
     }
 
     @ApiOperation(value = "회원 프로필 정보")
     @GetMapping("/{memberId}")
-    public MemberProfileResponse findMember(@PathVariable long memberId) {
+    public MemberProfileResponse findMember(@NotEmpty @PathVariable long memberId) {
         return memberService.findByIdFetch(memberId);
     }
 
     @ApiOperation(value = "회원 탈퇴")
     @DeleteMapping("/{memberId}")
-    public String delete(@PathVariable long memberId) {
+    public String delete(@NotEmpty @PathVariable long memberId) {
         memberService.delete(memberId);
         return "회원 탈퇴 성공";
     }

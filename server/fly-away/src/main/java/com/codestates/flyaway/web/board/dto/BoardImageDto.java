@@ -15,7 +15,6 @@ public class BoardImageDto {
     private String fileName;
 
     public static BoardImageDto toResponseDto(BoardImage boardImage) {
-
         return new BoardImageDto(
                 boardImage.getFileOriName(),
                 boardImage.getFileUrl(),

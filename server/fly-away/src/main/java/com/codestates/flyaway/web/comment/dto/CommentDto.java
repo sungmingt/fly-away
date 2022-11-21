@@ -15,47 +15,35 @@ import java.util.stream.Collectors;
 @Getter
 public class CommentDto {
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
+    @Getter @Setter
+    @AllArgsConstructor @NoArgsConstructor
     public static class Write {
-
         private Long memberId;
         private Long boardId;
         @NotBlank
         private String content;
     }
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
+    @Getter @Setter
+    @AllArgsConstructor @NoArgsConstructor
     public static class Update {
-
         private Long memberId;
         private Long boardId;
-        @Nullable
         private Long commentId;
         @NotBlank
         private String content;
     }
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
+    @Getter @Setter
+    @AllArgsConstructor @NoArgsConstructor
     public static class Delete {
-
         private Long memberId;
         private Long commentId;
     }
 
     @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
+    @AllArgsConstructor @NoArgsConstructor
     public static class CommentResponseDto {
-
         private Long memberId;
         private String memberName;
         private Long commentId;
@@ -63,7 +51,6 @@ public class CommentDto {
         private LocalDateTime createdAt;
 
         public static CommentDto.CommentResponseDto toResponseDto(Comment comment) {
-
             return new CommentDto.CommentResponseDto(
                     comment.getMember().getId(),
                     comment.getMember().getName(),
@@ -74,10 +61,8 @@ public class CommentDto {
     }
 
     @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
+    @AllArgsConstructor @NoArgsConstructor
     public static class MultiCommentDto {
-
         private Long memberId;
         private String memberName;
         private Long commentId;
@@ -85,7 +70,6 @@ public class CommentDto {
         private LocalDateTime createdAt;
 
         public static List<MultiCommentDto> toResponsesDto(List<Comment> comments) {
-
             return comments.stream()
                     .map(comment -> new MultiCommentDto(
                             comment.getMember().getId(),

@@ -18,6 +18,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static javax.persistence.CascadeType.*;
+import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Getter
@@ -40,20 +42,20 @@ public class Board extends Auditable {
     private int likeCount;
     private int commentCount;
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board", cascade = ALL)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board", fetch = EAGER, cascade = ALL)
     private List<BoardImage> images = new ArrayList<>();
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board", cascade = ALL)
     private Set<Likes> likes = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -62,10 +64,7 @@ public class Board extends Auditable {
         this.content = content;
     }
 
-    public void update(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
+    //===========================
 
     public void setMember(Member member) {
         this.member = member;
@@ -77,11 +76,9 @@ public class Board extends Auditable {
         category.getBoards().add(this);
     }
 
-    public void addImage(BoardImage boardImage) {
-        this.images.add(boardImage);
-        if(boardImage.getBoard() != this) {
-            boardImage.setBoard(this);
-        }
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 
     public void addViewCount() {

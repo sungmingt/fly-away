@@ -27,7 +27,7 @@ import static com.codestates.flyaway.global.exception.ExceptionCode.*;
 import static com.codestates.flyaway.web.board.dto.BoardDto.*;
 import static com.codestates.flyaway.web.board.dto.BoardDto.BoardResponseDto.*;
 
-@Transactional(readOnly = true)
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class BoardService {
@@ -39,7 +39,6 @@ public class BoardService {
     private final MemberService memberService;
     private final LikesRepository likesRepository;
 
-    @Transactional
     public BoardResponseDto create(List<MultipartFile> images, BoardDto.Create createDto) {
         Category category = categoryService.findById(createDto.getCategoryId());
         Member member = memberService.findById(createDto.getMemberId());
@@ -52,7 +51,6 @@ public class BoardService {
         return toResponseDto(board);
     }
 
-    @Transactional
     public BoardResponseDto update(List<MultipartFile> images, BoardDto.Update updateDto) {
         Category category = categoryService.findById(updateDto.getCategoryId());
         final Board board = boardRepository.getReferenceById(updateDto.getBoardId());
@@ -68,7 +66,6 @@ public class BoardService {
         return toResponseDto(board);
     }
 
-    @Transactional
     public BoardResponseDto read(Long boardId) {
         Board board = findById(boardId);
         board.addViewCount();
@@ -76,6 +73,7 @@ public class BoardService {
         return toResponseDto(board);
     }
 
+    @Transactional(readOnly = true)
     public List<MultiBoardDto> readAll(Pageable pageable) {
         Page<Board> boardPage = boardRepository.findAll(pageable);
         List<Board> board = boardPage.getContent();
@@ -83,6 +81,7 @@ public class BoardService {
         return MultiBoardDto.toResponsesDto(board);
     }
 
+    @Transactional(readOnly = true)
     public List<MultiBoardDto> readByCategory(Long categoryId, Pageable pageable) {
         Page<Board> boardCategory = boardRepository.findAllByCategoryId(categoryId, pageable);
         List<Board> categories = boardCategory.getContent();
@@ -90,7 +89,6 @@ public class BoardService {
         return MultiBoardDto.toResponsesDto(categories);
     }
 
-    @Transactional
     public void delete(BoardDto.Delete deleteDto) {
         Board board = findById(deleteDto.getBoardId());
         if(!Objects.equals(board.getMember().getId(), deleteDto.getMemberId())) {
@@ -100,17 +98,18 @@ public class BoardService {
         boardRepository.delete(board);
     }
 
+    @Transactional(readOnly = true)
     public Board findById(Long boardId) {
         return boardRepository.findById(boardId).orElseThrow(
                 () -> new BusinessLogicException(ARTICLE_NOT_FOUND));
     }
 
-    @Transactional
     public boolean doLike(Long boardId, Long memberId) {
         boolean likeResult;
 
         Member member = memberService.findById(memberId);
         Board board = findById(boardId);
+
         Optional<Likes> savedLikes = likesRepository.findByBoardAndMember(board, member);
 
         if(savedLikes.isPresent()) {
@@ -120,14 +119,13 @@ public class BoardService {
         }else {
             board.addLikeCount();
             likeResult = true;
-            likesRepository.save(Likes.builder()
-                    .board(board)
-                    .member(member)
-                    .build());
+            likesRepository.save(new Likes(board, member));
         }
+
         return likeResult;
     }
 
+    @Transactional(readOnly = true)
     public boolean readLike(Long boardId, Long memberId) {
         Member member = memberService.findById(memberId);
         Board board = findById(boardId);

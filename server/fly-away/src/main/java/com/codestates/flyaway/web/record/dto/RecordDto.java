@@ -32,7 +32,7 @@ public class RecordDto {
             return new InsertResponse(
                     memberId,
                     record.getDate(),
-                    record.getRecord());
+                    record.getRec());
         }
     }
 

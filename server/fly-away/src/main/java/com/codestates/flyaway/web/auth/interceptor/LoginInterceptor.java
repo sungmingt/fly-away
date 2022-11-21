@@ -18,9 +18,9 @@ import java.util.Map;
 import static com.codestates.flyaway.domain.auth.util.JwtUtil.*;
 import static com.codestates.flyaway.global.exception.ExceptionCode.*;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class LoginInterceptor implements HandlerInterceptor {
 
     private final MemberRepository memberRepository;

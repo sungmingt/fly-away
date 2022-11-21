@@ -48,6 +48,7 @@ public class MemberUtil {
         try {
             MessageDigest md = MessageDigest.getInstance(ALGORITHM);
             md.update(password.getBytes());
+
             return String.format("%0128x", new BigInteger(1, md.digest()));
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e.getMessage());

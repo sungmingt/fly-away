@@ -16,14 +16,17 @@ import static com.codestates.flyaway.web.auth.dto.LoginDto.*;
 
 @Service
 @Transactional
-@Slf4j
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
 
     private final MemberRepository memberRepository;
     private final JwtUtil jwtUtil;
     private final RedisUtil redisUtil;
 
+    /** 로그인
+     * @param loginRequest
+     */
     public LoginResponse login(LoginRequest loginRequest) {
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
@@ -45,6 +48,11 @@ public class AuthService {
         throw new BusinessLogicException(PASSWORD_NOT_MATCH);
     }
 
+    /**
+     * 로그아웃
+     * @param email
+     * @param accessToken
+     */
     public void logout(String email, String accessToken) {
         //refresh token 삭제
         redisUtil.deleteData(email);
@@ -56,12 +64,17 @@ public class AuthService {
         log.info("### 로그아웃 성공 - {}", email);
     }
 
-    public Member findByEmail(String email) {
-        return memberRepository.findByEmail(email)
-                .orElseThrow(() -> new BusinessLogicException(EMAIL_NOT_EXISTS));
-    }
-
+    /**
+     * 비밀번호 검증
+     * @param input
+     * @param exact
+     */
     private boolean checkPassword(String input, String exact) {
         return encode(input).equals(exact);
+    }
+
+    private Member findByEmail(String email) {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new BusinessLogicException(EMAIL_NOT_EXISTS));
     }
 }
