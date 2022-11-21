@@ -206,6 +206,16 @@ Content-Type: application/json
 }
 ````
 
+<br><br>
+
+
+## 📌동시성 문제와 해결
+
+- 회원의 누적 운동 기록을 member의 필드(totalRecord)로 가지고 있도록 했을때 발생할 수 있는 동시성 문제를 알게 되었습니다.
+- 해결 방법으로 ThreadLocal을 사용하거나, 인스턴스의 필드가 상태값을 갖지 않도록 수정하는 방법 등이 있었습니다.
+- 누적 기록이 필요한 경우 record 테이블에서 조회한 후 누적 기록을 추출하도록 변경함으로써 해결하였습니다.
+
+<img width="575" alt="image" src="https://user-images.githubusercontent.com/95558880/203056858-ca586c81-5820-4f1d-98a5-19d853630b58.png">
 
 
 <br><br>
