@@ -26,7 +26,6 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberImageService memberImageService;
-    private final RecordRepository recordRepository;
 
     /**
      * 회원 가입
