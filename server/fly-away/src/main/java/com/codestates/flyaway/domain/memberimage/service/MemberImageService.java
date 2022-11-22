@@ -1,10 +1,13 @@
 package com.codestates.flyaway.domain.memberimage.service;
 
+import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.codestates.flyaway.domain.member.entity.Member;
 import com.codestates.flyaway.domain.memberimage.entity.MemberImage;
 import com.codestates.flyaway.domain.memberimage.repository.MemberImageRepository;
+import com.codestates.flyaway.global.exception.BusinessLogicException;
+import com.codestates.flyaway.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.codestates.flyaway.global.exception.ExceptionCode.*;
 
 @Service
 @Transactional
@@ -32,27 +37,45 @@ public class MemberImageService {
     private String defaultUrl;
 
     /**
+     * 이미지 저장
+     */
+    public void save(MultipartFile multipartFile, Member member) {
+        if (multipartFile == null) {
+            return;
+        }
+
+        MemberImage image = upload(multipartFile);
+        delete(image.getFileName());
+        image.setMember(member);
+    }
+
+    /**
      * S3 이미지 업로드
      * @param multipartFile
-     * @return 생성된 image 객체
+     * @return 생성된 memberImage
      */
-    public MemberImage upload(MultipartFile multipartFile) throws IOException {
+    public MemberImage upload(MultipartFile multipartFile) {
         String fileOriName = multipartFile.getOriginalFilename();
         String s3FileName = UUID.randomUUID().toString() + "-" + fileOriName;
 
-        ObjectMetadata objMeta = new ObjectMetadata();
-        objMeta.setContentLength(multipartFile.getInputStream().available());
+        try {
+            ObjectMetadata objMeta = new ObjectMetadata();
+            objMeta.setContentLength(multipartFile.getInputStream().available());
 
-        amazonS3.putObject(bucket, s3FileName, multipartFile.getInputStream(), objMeta);
-        log.info("### 파일 업로드 성공 = {}", s3FileName);
+            amazonS3.putObject(bucket, s3FileName, multipartFile.getInputStream(), objMeta);
+            log.info("### 파일 업로드 성공 = {}", s3FileName);
+
+        } catch (IOException e) {
+            throw new BusinessLogicException(FILE_CANNOT_SAVE);
+        }
 
         String s3Url = amazonS3.getUrl(bucket, s3FileName).toString();
         return new MemberImage(fileOriName, s3Url, s3FileName);
     }
 
     /**
-     * 파일 반환
-     * @return 파일 url
+     * 이미지 반환
+     * @return 이미지 url
      */
     public String getImageUrl(Member member) {
         return Optional.ofNullable(member.getMemberImage())
@@ -61,9 +84,14 @@ public class MemberImageService {
     }
 
     /**
-     * 파일 삭제
+     * 이미지 삭제
      */
-    public void delete(long id) {
-        imageRepository.deleteById(id);
+    public void delete(String fileName) {
+        try {
+            amazonS3.deleteObject(this.bucket, fileName);
+        } catch (AmazonServiceException e) {
+            log.info("### 파일 삭제 실패 - {}", e.getErrorMessage());
+            throw new BusinessLogicException(FILE_DELETE_FAILED);
+        }
     }
 }

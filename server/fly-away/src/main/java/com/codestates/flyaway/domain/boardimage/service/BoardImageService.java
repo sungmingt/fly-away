@@ -6,7 +6,6 @@ import com.codestates.flyaway.domain.board.entity.Board;
 import com.codestates.flyaway.domain.boardimage.entity.BoardImage;
 import com.codestates.flyaway.domain.boardimage.repository.BoardImageRepository;
 import com.codestates.flyaway.global.exception.BusinessLogicException;
-import com.codestates.flyaway.web.board.dto.BoardImageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,12 +19,10 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.codestates.flyaway.global.exception.ExceptionCode.FILE_NOT_FOUND;
-import static com.codestates.flyaway.web.board.dto.BoardImageDto.toResponseDto;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-@Slf4j
 public class BoardImageService {
 
     private final BoardImageRepository boardImageRepository;
@@ -75,31 +72,28 @@ public class BoardImageService {
         return saveFileResult;
     }
 
-    public List<BoardImage> updateFiles(List<MultipartFile> multipartFiles, Board board) {
-        if(multipartFiles != null) {
-            List<BoardImage> imageList = boardImageRepository.findAllByBoardId(board.getId());
+    public void updateFiles(List<MultipartFile> multipartFiles, Board board) {
+        if(multipartFiles == null) return;
 
-            for (BoardImage boardImage : imageList) {
-                delete(boardImage);
-            }
+        List<BoardImage> boardImages = boardImageRepository.findAllByBoardId(board.getId());
+        for (BoardImage boardImage : boardImages) {
+            delete(boardImage);
+        }
 
-            return saveFiles(multipartFiles, board);
-        } else return boardImageRepository.findAllByBoardId(board.getId());
+        saveFiles(multipartFiles, board);
     }
 
     public String getImage(Long imageId) {
-        BoardImageDto boardImageDto = findByImageId(imageId);
-        return amazonS3.getUrl(boardImageDto.getFileUrl(), boardImageDto.getFileName()).toString();
+        BoardImage boardImage = findByImageId(imageId);
+        return amazonS3.getUrl(boardImage.getFileUrl(), boardImage.getFileName()).toString();
     }
 
     public void delete(BoardImage boardImage) {
         boardImageRepository.deleteById(boardImage.getId());
     }
 
-    public BoardImageDto findByImageId(Long imageId) {
-        BoardImage boardImage = boardImageRepository.findById(imageId)
+    public BoardImage findByImageId(Long imageId) {
+        return boardImageRepository.findById(imageId)
                 .orElseThrow(() -> new BusinessLogicException(FILE_NOT_FOUND));
-
-        return toResponseDto(boardImage);
     }
 }

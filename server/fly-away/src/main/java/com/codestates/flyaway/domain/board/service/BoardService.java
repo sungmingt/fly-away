@@ -39,19 +39,21 @@ public class BoardService {
     private final MemberService memberService;
     private final LikesRepository likesRepository;
 
-    public BoardResponseDto create(List<MultipartFile> images, BoardDto.Create createDto) {
+    public BoardResponseDto create(List<MultipartFile> images, Create createDto) {
         Category category = categoryService.findById(createDto.getCategoryId());
         Member member = memberService.findById(createDto.getMemberId());
+        
         Board board = new Board(createDto.getTitle(), createDto.getContent());
         board.setCategory(category);
         board.setMember(member);
+
         boardRepository.save(board);
         boardImageService.saveFiles(images, board);
 
         return toResponseDto(board);
     }
 
-    public BoardResponseDto update(List<MultipartFile> images, BoardDto.Update updateDto) {
+    public BoardResponseDto update(List<MultipartFile> images, Update updateDto) {
         Category category = categoryService.findById(updateDto.getCategoryId());
         final Board board = boardRepository.getReferenceById(updateDto.getBoardId());
 
@@ -89,7 +91,7 @@ public class BoardService {
         return MultiBoardDto.toResponsesDto(categories);
     }
 
-    public void delete(BoardDto.Delete deleteDto) {
+    public void delete(Delete deleteDto) {
         Board board = findById(deleteDto.getBoardId());
         if(!Objects.equals(board.getMember().getId(), deleteDto.getMemberId())) {
             throw new BusinessLogicException(NOT_AUTHORIZED);

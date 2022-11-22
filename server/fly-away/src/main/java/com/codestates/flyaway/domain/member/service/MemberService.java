@@ -2,7 +2,6 @@ package com.codestates.flyaway.domain.member.service;
 
 import com.codestates.flyaway.domain.member.entity.Member;
 import com.codestates.flyaway.domain.member.repository.MemberRepository;
-import com.codestates.flyaway.domain.memberimage.entity.MemberImage;
 import com.codestates.flyaway.domain.memberimage.service.MemberImageService;
 import com.codestates.flyaway.domain.record.entity.Record;
 import com.codestates.flyaway.domain.record.repository.RecordRepository;
@@ -11,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.IOException;
 
 import static com.codestates.flyaway.domain.member.util.MemberUtil.*;
 import static com.codestates.flyaway.global.exception.ExceptionCode.*;
@@ -57,29 +54,13 @@ public class MemberService {
      */
     public UpdateResponse update(UpdateRequest updateRequest) {
         Member member = findById(updateRequest.getMemberId());
-        saveImage(updateRequest, member);
+        memberImageService.save(updateRequest.getImage(), member);
 
         String name = updateRequest.getName();
         String password = updateRequest.getPassword();
+
         member.update(name, password);
-
         return toUpdateResponse(member);
-    }
-
-    /**
-     * 이미지 저장
-     */
-    public void saveImage(UpdateRequest updateRequest, Member member) {
-        if (updateRequest.getImage() == null) {
-            return;
-        }
-
-        try {
-            MemberImage image = memberImageService.upload(updateRequest.getImage());
-            image.setMember(member);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**
