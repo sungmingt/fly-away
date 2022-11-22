@@ -2,8 +2,8 @@ package com.codestates.flyaway.domain.member.entity;
 
 import com.codestates.flyaway.domain.board.entity.Board;
 import com.codestates.flyaway.domain.comment.entity.Comment;
-import com.codestates.flyaway.domain.likes.Likes;
-import com.codestates.flyaway.domain.memberimage.MemberImage;
+import com.codestates.flyaway.domain.likes.entity.Likes;
+import com.codestates.flyaway.domain.memberimage.entity.MemberImage;
 import com.codestates.flyaway.domain.record.entity.Record;
 import com.codestates.flyaway.domain.video.entity.Video;
 import com.codestates.flyaway.global.audit.Auditable;
@@ -76,7 +76,6 @@ public class Member extends Auditable {
 
     //==================
 
-
     public void setMemberImage(MemberImage memberImage) {
         this.memberImage = memberImage;
     }
@@ -85,11 +84,12 @@ public class Member extends Auditable {
         Optional.ofNullable(name)
                 .ifPresent(n -> this.name = n);
         Optional.ofNullable(password)
-                .ifPresent(p -> this.password = encode(p));
+                .ifPresent(p -> {
+                    checkPassword(p);
+                    this.password = encode(p);
+                });
 //        Optional.ofNullable(password)
-//                .ifPresent(p -> {
-//                    checkPassword(p);
-//                    this.password = encode(p);
-//                });
+//                .ifPresent(p -> this.password = encode(p));
+
     }
 }

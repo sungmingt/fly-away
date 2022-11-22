@@ -2,7 +2,7 @@ package com.codestates.flyaway.domain.member.service;
 
 import com.codestates.flyaway.domain.member.entity.Member;
 import com.codestates.flyaway.domain.member.repository.MemberRepository;
-import com.codestates.flyaway.domain.memberimage.MemberImage;
+import com.codestates.flyaway.domain.memberimage.entity.MemberImage;
 import com.codestates.flyaway.domain.memberimage.service.MemberImageService;
 import com.codestates.flyaway.domain.record.entity.Record;
 import com.codestates.flyaway.domain.record.repository.RecordRepository;
@@ -32,20 +32,20 @@ public class MemberService {
     private final RecordRepository recordRepository;
 
     /**
-     * 회원가입
+     * 회원 가입
      * @return 가입 완료된 회원의 id, name, email, createdAt
      */
     public JoinResponse join(JoinRequest joinRequest) {
         String email = joinRequest.getEmail();
         String password = joinRequest.getPassword();
 
-//        checkEmail(email);
-//        checkPassword(password);
+        checkEmail(email);
+        checkPassword(password);
         verifyEmail(email);
 
         joinRequest.setPassword(encode(password));
 
-        Member member = joinRequest.toEntity();
+        Member member = joinRequest.toMember();
         Member savedMember = memberRepository.save(member);
 
         return toJoinResponse(savedMember);
@@ -67,7 +67,7 @@ public class MemberService {
     }
 
     /**
-     * 이미지 저장 메서드
+     * 이미지 저장
      */
     public void saveImage(UpdateRequest updateRequest, Member member) {
         if (updateRequest.getImage() == null) {
@@ -102,9 +102,9 @@ public class MemberService {
                 .orElseThrow(() -> new BusinessLogicException(MEMBER_NOT_FOUND));
 
         //회원의 누적 운동 기록
-        long totalRecord = recordRepository.findByMemberId(memberId)
+        long totalRecord = findMember.getRecords()
                 .stream()
-                .mapToLong(Record::getRecord)
+                .mapToLong(Record::getRec)
                 .sum();
 
         return toProfileResponse(findMember, totalRecord);
@@ -117,7 +117,6 @@ public class MemberService {
         Member member = findById(memberId);
         memberRepository.delete(member);
     }
-
 
     /**
      * 단순 조회 재사용 메서드
