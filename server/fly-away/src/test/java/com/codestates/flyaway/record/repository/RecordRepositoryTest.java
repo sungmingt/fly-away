@@ -38,6 +38,6 @@ class RecordRepositoryTest {
 
         //then
         assertThat(findRecord.getMember().getId()).isEqualTo(member.getId());
-        assertThat(findRecord.getRecord()).isEqualTo(10);
+        assertThat(findRecord.getRec()).isEqualTo(10);
     }
 }

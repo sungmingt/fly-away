@@ -32,18 +32,6 @@ class RecordServiceTest {
     @InjectMocks
     private RecordService recordService;
 
-//    @BeforeEach
-//    void before() {
-//        Member member1 = new Member("kim", "member1@gmail.com", "pw");
-//        Member member2 = new Member("park","member2@gmail.com", "pw");
-//        Member member3 = new Member("lee", "member3@gmail.com", "pw");
-//        Member member4 = new Member("code","member4@gmail.com", "pw");
-//        memberRepository.save(member1);
-//        memberRepository.save(member2);
-//        memberRepository.save(member3);
-//        memberRepository.save(member4);
-//    }
-
     @DisplayName("운동 시간 기록 - 해당 날짜 첫 기록")
     @Test
     void newRecordTest() {
@@ -58,8 +46,8 @@ class RecordServiceTest {
                 .willReturn(member);
 
         //when
-        InsertResponse response = recordService.insertRecord(1L, request);
-        long totalRecord = member.getRecords().stream().mapToLong(Record::getRecord).sum();
+        InsertResponse response = recordService.save(1L, request);
+        long totalRecord = member.getRecords().stream().mapToLong(Record::getRec).sum();
 
         //then
         assertThat(response.getRecord()).isEqualTo(request.getRecord());
@@ -82,10 +70,10 @@ class RecordServiceTest {
                 .willReturn(member);
 
         //when
-        recordService.insertRecord(1L, request);
+        recordService.save(1L, request);
         long totalRecord = member.getRecords()
                 .stream()
-                .mapToLong(Record::getRecord)
+                .mapToLong(Record::getRec)
                 .sum();
 
         //then

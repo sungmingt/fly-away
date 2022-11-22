@@ -21,8 +21,8 @@ public class RecordController {
     @ApiOperation(value = "운동 시간 기록", notes = "운동영상 시청 시간을 회원의 운동 기록에 반영")
     @ResponseStatus(value = CREATED)
     @PostMapping("/{memberId}")
-    public InsertResponse insertRecord(@NotEmpty @PathVariable long memberId,
+    public InsertResponse save(@NotEmpty @PathVariable long memberId,
                                        @Validated @RequestBody InsertRequest recordDto) {
-        return recordService.insertRecord(memberId, recordDto);
+        return recordService.save(memberId, recordDto);
     }
 }

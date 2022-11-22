@@ -43,7 +43,7 @@ class MemberRepositoryTest {
         Member findMember = memberRepository.findByIdFetch(1).get();
 
         assertThat(findMember.getRecords()).hasSize(2);
-        assertThat(findMember.getRecords().get(0).getRecord()).isEqualTo(10);
+        assertThat(findMember.getRecords().get(0).getRec()).isEqualTo(10);
         assertThat(findMember.getEmail()).isEqualTo("member1@gmail.com");
     }
 }
