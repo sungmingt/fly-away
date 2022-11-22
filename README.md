@@ -42,9 +42,6 @@
 - REFACTOR: 코드 리팩토링
 - TEST: 테스트 코트, 리팩토링 테스트 코드 추가
 
-***
-- Github Project의 칸반보드를 이용한 일정관리
-
 <br>
 
 
@@ -72,6 +69,8 @@
 </table>
 
 
+- Github Project의 칸반보드를 이용한 일정 관리
+
 <br><br>
 
 
@@ -91,7 +90,7 @@
 
 <img width="1033" alt="화면 캡처 2022-10-23 170217" src="https://user-images.githubusercontent.com/95558880/197381245-44a3dd02-32c7-4e8c-8b5c-75a9dd31e448.png">
 
-- 게시판과 카테고리는 '하나의 게시글은 하나의 카테고리에만 포함될 수 있다' 라는 요구사항을 반영해 N:1로 매핑했습니다.
+- 게시판 - 카테고리의 경우 '하나의 게시글은 하나의 카테고리에만 포함될 수 있다' 라는 요구사항을 반영해 N:1 매핑
 
 <br><br>
 
@@ -206,7 +205,16 @@ Content-Type: application/json
 }
 ````
 
+<br><br>
 
+
+## 📌동시성 문제와 해결
+
+- 회원의 누적 운동 기록을 member의 필드(totalRecord)로 가지도록 했을 때 발생할 수 있는 **동시성 문제**를 알게 되었습니다.
+- 해결 방법으로 ```ThreadLocal```을 사용하거나, **```인스턴스의 필드가 상태값을 갖지 않도록```** 수정하는 방법 등이 있었습니다.
+- 누적 기록이 필요한 경우 record 테이블에서 조회한 후 누적 기록을 추출하도록 변경함으로써 해결하였습니다.
+
+<img width="575" alt="image" src="https://user-images.githubusercontent.com/95558880/203056858-ca586c81-5820-4f1d-98a5-19d853630b58.png">
 
 <br><br>
 
