@@ -3,7 +3,7 @@
 <img width="927" alt="화면 캡처 2022-10-23 163901" src="https://user-images.githubusercontent.com/95558880/197380263-f787f673-050c-4913-8a0d-f72feb03086d.png">
 
 ### 🏋️‍♀️ 소개
-> FLYAWAY는 ‘운동’과 ‘기록’을 결합한 통합 웹서비스 입니다.
+> FLYAWAY는 ‘운동’과 ‘기록’을 결합한 통합 웹 서비스 입니다.
 
 <br>
 
