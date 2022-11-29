@@ -121,12 +121,10 @@
 
 <img width="1085" alt="main project swagger - record, s3, video" src="https://user-images.githubusercontent.com/95558880/196963726-a8a7c9a7-f4dc-42e0-a64b-4c8d25e6e0ce.png">
 
-**API 문서로 Swagger를 사용한 이유**는 다음과 같습니다.
+**API 문서로 Swagger를 사용한 이유**
 
 >Swagger는 코드가 애플리케이션에 섞인다는 단점이 존재하지만 크게 영향을 받지 않는다고 생각했고,
  수시로 변경될 가능성이 있는 API를 동적으로 빠르게 제공하기 위해 Swagger를 사용했습니다. 
-
-
 
 <br><br>
 
