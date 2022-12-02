@@ -30,6 +30,9 @@ public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
+    private String name;
+    private String email;
+    private String password;
 
     @OneToOne(fetch = LAZY, cascade = ALL, orphanRemoval = true)
     @JoinColumn(name = "image_id")
@@ -49,10 +52,6 @@ public class Member extends Auditable {
 
     @OneToMany(mappedBy = "member", cascade = ALL)
     private Set<Likes> likes = new HashSet<>();
-
-    private String name;
-    private String email;
-    private String password;
 
     public Member(String name, String email, String password) {
         this.name = name;

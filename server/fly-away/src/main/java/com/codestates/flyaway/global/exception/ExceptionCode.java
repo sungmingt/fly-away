@@ -11,10 +11,11 @@ public enum ExceptionCode {
     NOT_AUTHORIZED(403, "작성자가 일치하지 않습니다."),
 
     //TOKEN
+    ACCESS_TOKEN_EXPIRED(401, "access token 만료, reissue 요청이 필요합니다."),
     REFRESH_TOKEN_EXPIRED(401, "refresh token 만료, 강제 로그아웃"),
+    REFRESH_TOKEN_INVALID(401, "refresh token 정보가 일치하지 않습니다."),
     REQUIRED_TOKEN_MISSING(401, "토큰이 존재하지 않습니다."),
     TOKEN_FROM_BLACKLIST(401, "blacklist에 등록된 토큰입니다."),
-    REISSUED_ACCESS_TOKEN(401, "토큰을 재발급합니다."),
     PAYLOAD_NOT_VALID(401, "토큰의 payload가 유효하지 않습니다."),
 
     //USER INFO

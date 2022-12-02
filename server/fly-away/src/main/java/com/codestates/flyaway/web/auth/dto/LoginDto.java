@@ -24,6 +24,7 @@ public class LoginDto {
     @AllArgsConstructor @NoArgsConstructor
     public static class LoginResponse {
         private String accessToken;
+        private String refreshToken;
         private String memberId;
     }
 }

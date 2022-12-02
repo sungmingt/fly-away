@@ -13,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 import static com.codestates.flyaway.domain.auth.util.JwtUtil.*;
 import static com.codestates.flyaway.global.exception.ExceptionCode.*;
@@ -39,24 +38,19 @@ public class LoginInterceptor implements HandlerInterceptor {
             throw new BusinessLogicException(REQUIRED_TOKEN_MISSING);
         }
 
-        String token = request.getHeader(AUTHORIZATION).replace(PREFIX, "");
+        String accessToken = request.getHeader(AUTHORIZATION).replace(PREFIX, "");
 
         //blacklist 확인
-        if (redisUtil.isBlacklist(token)) {
-            log.info("### access token from blacklist - {}", token);
+        if (redisUtil.isBlacklist(accessToken)) {
+            log.info("### access token from blacklist - {}", accessToken);
             throw new BusinessLogicException(TOKEN_FROM_BLACKLIST);
         }
 
         //토큰 검증
-        Map<String, String> verified = jwtUtil.verifyToken(token);
+        jwtUtil.verifyAccessToken(accessToken);
 
-        if (verified.containsKey(AUTHORIZATION)) {
-            response.addHeader(AUTHORIZATION, verified.get(AUTHORIZATION));
-            throw new BusinessLogicException(REISSUED_ACCESS_TOKEN);
-        }
-
-        //이메일 검증
-        String email = verified.get(EMAIL);
+        //payload 검증
+        String email = jwtUtil.getPayload(accessToken);
         if (email == null || !memberRepository.existsByEmail(email)) {
             throw new BusinessLogicException(PAYLOAD_NOT_VALID);
         }

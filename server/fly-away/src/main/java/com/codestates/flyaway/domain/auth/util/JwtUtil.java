@@ -2,8 +2,11 @@ package com.codestates.flyaway.domain.auth.util;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.codestates.flyaway.domain.redis.RedisUtil;
 import com.codestates.flyaway.global.exception.BusinessLogicException;
+import com.codestates.flyaway.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,7 +50,7 @@ public class JwtUtil {
      * refresh token 생성
      */
     public String createRefreshToken(String email) {
-        return JWT.create()
+        return PREFIX + JWT.create()
                 .withSubject(SUBJECT)
                 .withExpiresAt(new Date(System.currentTimeMillis() + REFRESH_TOKEN_VALIDATION_SECOND))
                 .withClaim(EMAIL, email)
@@ -55,34 +58,23 @@ public class JwtUtil {
     }
 
     /**
-     * 토큰 검증
+     * access token 검증
      */
-    public Map<String, String> verifyToken(String token) {
-        //토큰 만료 확인
-        if (isExpired(token)) {
-            String email = getEmail(token);
-            String refreshToken = redisUtil.getData(email);
-
-            //refresh token 만료 확인 -> 강제 로그아웃
-            if (refreshToken == null) {
-                log.info("### refresh token expired - {}", email);
-                throw new BusinessLogicException(REFRESH_TOKEN_EXPIRED);
-            }
-
-            //access token 재발급
-            String accessToken = createAccessToken(email);
-            //기존 refresh token 초기화
-            redisUtil.setDataExpire(email, refreshToken);
-
-            return Map.of(AUTHORIZATION, accessToken);
+    public void verifyAccessToken(String accessToken) {
+        if (isExpired(accessToken)) {
+            log.info("access token expired - {}", accessToken);
+            throw new BusinessLogicException(ACCESS_TOKEN_EXPIRED);
         }
+    }
 
-        return Map.of(EMAIL,
-                JWT.require(Algorithm.HMAC512(SECRET_KEY))
-                        .build()
-                        .verify(token)
-                        .getClaim(EMAIL)
-                        .asString());
+    /**
+     * refresh token 검증 (access/refresh 각각 다른 예외를 던져야 하기 떄문에 분리) -> 리팩토링 고려
+     */
+    public void verifyRefreshToken(String refreshToken) {
+        if (isExpired(refreshToken)) {
+            log.info("refresh token expired - {}", refreshToken);
+            throw new BusinessLogicException(REFRESH_TOKEN_EXPIRED);
+        }
     }
 
     /**
@@ -96,7 +88,7 @@ public class JwtUtil {
         return JWT.decode(token).getExpiresAt().getTime() - System.currentTimeMillis();
     }
 
-    private String getEmail(String token) {
+    public String getPayload(String token) {
         return JWT.decode(token).getClaim(EMAIL).asString();
     }
 }

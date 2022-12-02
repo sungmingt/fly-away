@@ -5,6 +5,7 @@ import com.codestates.flyaway.domain.member.entity.Member;
 import com.codestates.flyaway.domain.member.repository.MemberRepository;
 import com.codestates.flyaway.domain.redis.RedisUtil;
 import com.codestates.flyaway.global.exception.BusinessLogicException;
+import com.codestates.flyaway.web.auth.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,13 +37,11 @@ public class AuthService {
 
         //비밀번호 확인
         if (checkPassword(password, member.getPassword())) {
-            log.info("### 로그인 성공 - {}", member.getEmail());
-
             String accessToken = jwtUtil.createAccessToken(email);
             String refreshToken = jwtUtil.createRefreshToken(email);
-            redisUtil.setDataExpire(email, refreshToken);
 
-            return new LoginResponse(accessToken, String.valueOf(member.getId()));
+            redisUtil.setDataExpire(email, refreshToken);
+            return new LoginResponse(accessToken, refreshToken, String.valueOf(member.getId()));
         }
 
         throw new BusinessLogicException(PASSWORD_NOT_MATCH);
@@ -60,8 +59,6 @@ public class AuthService {
         //access token blacklist 등록
         Long expiration = jwtUtil.getExpiration(accessToken);
         redisUtil.setBlackList(accessToken, expiration);
-
-        log.info("### 로그아웃 성공 - {}", email);
     }
 
     /**
@@ -76,5 +73,29 @@ public class AuthService {
     private Member findByEmail(String email) {
         return memberRepository.findByEmail(email)
                 .orElseThrow(() -> new BusinessLogicException(EMAIL_NOT_EXISTS));
+    }
+
+    /**
+     * access token 재발급
+     * @param refreshToken
+     */
+    public TokenResponse reissue(String refreshToken) {
+        //refresh token 만료 여부 검증
+        jwtUtil.verifyRefreshToken(refreshToken);
+
+        String email = jwtUtil.getPayload(refreshToken);
+        String exRefreshToken = redisUtil.getData(email);
+
+        //refreshToken 유효성 검증
+        if (!refreshToken.equals(exRefreshToken)) {
+            throw new BusinessLogicException(REFRESH_TOKEN_INVALID);
+        }
+
+        //access/refresh token 재발급
+        String accessToken = jwtUtil.createAccessToken(email);
+        String newRefreshToken = jwtUtil.createRefreshToken(email);
+        redisUtil.setDataExpire(email, newRefreshToken);
+
+        return new TokenResponse(accessToken, newRefreshToken);
     }
 }
