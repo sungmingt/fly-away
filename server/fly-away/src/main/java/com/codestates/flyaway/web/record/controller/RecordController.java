@@ -22,7 +22,7 @@ public class RecordController {
     @ResponseStatus(value = CREATED)
     @PostMapping("/{memberId}")
     public InsertResponse save(@NotEmpty @PathVariable long memberId,
-                                       @Validated @RequestBody InsertRequest recordDto) {
+                               @Validated @RequestBody InsertRequest recordDto) {
         return recordService.save(memberId, recordDto);
     }
 }
