@@ -58,7 +58,7 @@ class AuthTest {
 
                     //then
                     accessToken = token.replace(PREFIX, "");
-                    String refreshToken = redisUtil.getData(request.getEmail());
+                    String refreshToken = redisUtil.getData(request.getEmail()).replace(PREFIX, "");
 
                     //access 토큰이 유효해야 한다.
                     assertThat(JWT.decode(accessToken).getClaim(EMAIL).asString())

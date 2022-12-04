@@ -42,7 +42,10 @@ class MemberServiceTest {
     @Test
     void joinTest() {
         //given
-        JoinRequest request = new JoinRequest("김코딩", "kimcode@gmail.com", "asdf123!");
+        String name = "김코딩";
+        String email = "kimcode@gmail.com";
+        String password = "asdf123!";
+        JoinRequest request = new JoinRequest(name, email, password);
 
         given(memberRepository.save(any(Member.class)))
                 .willReturn(request.toMember());
@@ -58,8 +61,14 @@ class MemberServiceTest {
     @Test
     void updateTest() {
         //given
-        Member member = new Member("김코딩", "kimcode@gmail.com", "asdf123!");
-        UpdateRequest request = new UpdateRequest(1L, "이코딩", "qwer456@", null);
+        String name = "김코딩";
+        String email = "kimcode@gmail.com";
+        String password = "asdf123!";
+        Member member = new Member(name, email, password);
+
+        String newName = "이코딩";
+        String newPassword = "qwer456@";
+        UpdateRequest request = new UpdateRequest(1L, newName, newPassword, null);
 
         given(memberRepository.findById(anyLong()))
                 .willReturn(Optional.of(member));

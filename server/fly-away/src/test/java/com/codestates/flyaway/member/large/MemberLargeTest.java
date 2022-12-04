@@ -1,4 +1,4 @@
-package com.codestates.flyaway.large;
+package com.codestates.flyaway.member.large;
 
 import com.auth0.jwt.JWT;
 import com.codestates.flyaway.domain.auth.service.AuthService;
@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.DynamicTest.*;
 
 @SpringBootTest
-class LargeTest {
+class MemberLargeTest {
 
     @Autowired
     private MemberService memberService;
@@ -110,7 +110,11 @@ class LargeTest {
 
                 dynamicTest("회원 정보 수정", () -> {
                     //given
-                    UpdateRequest req = new UpdateRequest(1L, "jordan", "newpass123!", null);
+                    Long memberId = 1L;
+                    String newName = "jordan";
+                    String newPassword = "newpass123!";
+
+                    UpdateRequest req = new UpdateRequest(memberId, newName, newPassword, null);
 
                     //when
                     memberService.update(req);
@@ -118,8 +122,8 @@ class LargeTest {
                     //then
                     Member member = memberRepository.findById(1L).get();
 
-                    assertThat(member.getName()).isEqualTo(req.getName());
-                    assertThat(member.getPassword()).isEqualTo(encode(req.getPassword()));
+                    assertThat(member.getName()).isEqualTo(newName);
+                    assertThat(member.getPassword()).isEqualTo(encode(newPassword));
                 }),
 
                 dynamicTest("회원 탈퇴", () -> {
