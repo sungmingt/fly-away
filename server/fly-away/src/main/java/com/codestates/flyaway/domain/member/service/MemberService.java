@@ -4,7 +4,6 @@ import com.codestates.flyaway.domain.member.entity.Member;
 import com.codestates.flyaway.domain.member.repository.MemberRepository;
 import com.codestates.flyaway.domain.memberimage.service.MemberImageService;
 import com.codestates.flyaway.domain.record.entity.Record;
-import com.codestates.flyaway.domain.record.repository.RecordRepository;
 import com.codestates.flyaway.global.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -82,14 +81,21 @@ public class MemberService {
                 .orElseThrow(() -> new BusinessLogicException(MEMBER_NOT_FOUND));
 
         //회원의 누적 운동 기록
-        long totalRecord = findMember.getRecords()
-                .stream()
-                .mapToLong(Record::getRec)
-                .sum();
-
+        Long totalRecord = getTotalRecord(findMember);
         return toProfileResponse(findMember, totalRecord);
     }
 
+    /**
+     * 누적 기록 합산
+     * @param member
+     * @return totalRecord
+     */
+    private Long getTotalRecord(Member member) {
+        return member.getRecords()
+                .stream()
+                .mapToLong(Record::getRec)
+                .sum();
+    }
     /**
      * 회원 탈퇴
      */

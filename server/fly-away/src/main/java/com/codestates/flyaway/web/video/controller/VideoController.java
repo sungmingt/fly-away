@@ -17,11 +17,10 @@ public class VideoController {
 
     private final VideoService videoService;
 
-    @ApiOperation("시청 기록 저장")
+    @ApiOperation(value = "시청 기록 저장")
     @PostMapping("/video")
-    public String addRecent(@Validated @RequestBody AddRequest request) {
-        videoService.addRecent(request);
-        return "시청 기록 저장 완료";
+    public AddResponse addRecent(@Validated @RequestBody AddRequest request) {
+        return videoService.addRecent(request);
     }
 
     @ApiOperation(value = "최근 시청 기록 조회")

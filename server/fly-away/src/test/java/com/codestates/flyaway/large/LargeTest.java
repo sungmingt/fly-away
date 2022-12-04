@@ -1,4 +1,4 @@
-package com.codestates.flyaway.member.large;
+package com.codestates.flyaway.large;
 
 import com.auth0.jwt.JWT;
 import com.codestates.flyaway.domain.auth.service.AuthService;
@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static com.codestates.flyaway.domain.auth.util.JwtUtil.EMAIL;
+import static com.codestates.flyaway.domain.auth.util.JwtUtil.PREFIX;
 import static com.codestates.flyaway.domain.member.util.MemberUtil.*;
 import static com.codestates.flyaway.web.auth.dto.LoginDto.*;
 import static com.codestates.flyaway.web.member.dto.MemberDto.*;
@@ -69,11 +71,11 @@ class LargeTest {
 
                     //when
                     String token = authService.login(req).getAccessToken();
-                    String accessToken = token.replace("Bearer ", "");
+                    String accessToken = token.replace(PREFIX, "");
 
                     //then
                     assertThat(JWT.decode(accessToken)
-                            .getClaim("email").asString())
+                            .getClaim(EMAIL).asString())
                             .isEqualTo(email);
                 }),
 
@@ -84,13 +86,13 @@ class LargeTest {
                     InsertRequest request = new InsertRequest(record);
 
                     //when
-                    InsertResponse response = recordService.insertRecord(memberId, request);
+                    recordService.save(memberId, request);
 
                     //then
                     List<Record> records = recordRepository.findByMemberId(memberId);
 
                     assertThat(records).hasSize(1);
-                    assertThat(records.get(0).getRecord()).isEqualTo(record);
+                    assertThat(records.get(0).getRec()).isEqualTo(record);
                 }),
 
                 dynamicTest("프로필 조회", () -> {

@@ -28,6 +28,18 @@ public class VideoDto {
 
     @Getter
     @NoArgsConstructor @AllArgsConstructor
+    public static class AddResponse{
+        private String videoId;
+        private String title;
+        private String url;
+
+        public static AddResponse toAddResponse(Video video) {
+            return new AddResponse(video.getVideoId(), video.getTitle(), video.getUrl());
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor @AllArgsConstructor
     public static class VideoList{
         private String videoId;
         private String title;

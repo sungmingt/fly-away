@@ -18,7 +18,6 @@ public class Video {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-
     private String videoId;
     private String title;
     private String url;

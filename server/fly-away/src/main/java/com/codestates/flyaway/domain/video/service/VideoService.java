@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.codestates.flyaway.web.video.dto.VideoDto.*;
+import static com.codestates.flyaway.web.video.dto.VideoDto.AddResponse.toAddResponse;
 
 @Service
 @Transactional
@@ -26,16 +27,17 @@ public class VideoService {
     /**
      * 영상 시청 -> 최근 영상 목록 업데이트
      */
-    public void addRecent(AddRequest request) {
+    public AddResponse addRecent(AddRequest request) {
         Member member = memberService.findById(request.getMemberId());
-
         Video video = new Video(request.getVideoId(), request.getTitle(), request.getUrl(), member);
 
         //동일 영상 시청 기록이 있는 경우 -> 중복 제거를 위해 기존 기록 삭제
         videoRepository.findByVideoIdAndMemberId(request.getVideoId(), request.getMemberId())
                         .ifPresent(videoRepository::delete);
 
-        videoRepository.save(video);
+        //저장
+        Video saved = videoRepository.save(video);
+        return toAddResponse(saved);
     }
 
     /**

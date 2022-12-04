@@ -1,12 +1,9 @@
-package com.codestates.flyaway.video;
+package com.codestates.flyaway.video.repository;
 
 import com.codestates.flyaway.domain.member.entity.Member;
 import com.codestates.flyaway.domain.member.repository.MemberRepository;
-import com.codestates.flyaway.domain.record.entity.Record;
-import com.codestates.flyaway.domain.record.repository.RecordRepository;
 import com.codestates.flyaway.domain.video.entity.Video;
 import com.codestates.flyaway.domain.video.repository.VideoRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +13,6 @@ import org.springframework.test.annotation.Rollback;
 
 import java.util.List;
 
-import static java.time.LocalDate.now;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -49,7 +45,7 @@ class VideoRepositoryTest {
 
     @DisplayName("특정 회원의 특정 영상 시청 기록 조회")
     @Test
-    void findByVideoIdAndMemberId() {
+    void findByVideoIdAndMemberIdTest() {
         //given
         String videoId = "videoId2";
         Long memberId = 1L;
