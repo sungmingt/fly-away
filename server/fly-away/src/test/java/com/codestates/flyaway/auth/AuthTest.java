@@ -77,7 +77,6 @@ class AuthTest {
                     //then
                     //블랙리스트 등록
                     assertThat(redisUtil.isBlacklist(accessToken)).isTrue();
-
                     //refresh token 삭제
                     assertThat(redisUtil.getData(email)).isNullOrEmpty();
                 })

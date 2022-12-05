@@ -20,7 +20,7 @@ import static com.codestates.flyaway.global.exception.ExceptionCode.*;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class LoginInterceptor implements HandlerInterceptor {
+public class AuthInterceptor implements HandlerInterceptor {
 
     private final MemberRepository memberRepository;
     private final RedisUtil redisUtil;

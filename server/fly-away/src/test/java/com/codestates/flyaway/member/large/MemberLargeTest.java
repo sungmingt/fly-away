@@ -53,7 +53,7 @@ class MemberLargeTest {
         final String password = "asdf1234!";
 
         return Stream.of(
-                dynamicTest("회원 가입 진행", () -> {
+                dynamicTest("회원 가입", () -> {
                     //given
                     JoinRequest req = new JoinRequest(name, email, password);
 
