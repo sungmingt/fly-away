@@ -36,17 +36,15 @@ class AuthTest {
 
     private String accessToken;
 
-    @BeforeEach
-    void before() {
-        Member member = new Member("jordan", "jordan123@gmail.com", encode("jd1234!@"));
-        memberRepository.save(member);
-    }
-
     @DisplayName("로그인/로그아웃 - access/refresh token 검증")
     @TestFactory
     Stream<DynamicTest> joinAndLogin() {
+        final String name = "jordan";
         final String email = "jordan123@gmail.com";
         final String password = "jd1234!@";
+
+        Member member = new Member(name, email, encode(password));
+        memberRepository.save(member);
 
         return Stream.of(
                 dynamicTest("로그인 - access token 생성 / refresh token 저장", () -> {
