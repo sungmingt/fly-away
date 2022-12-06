@@ -29,21 +29,20 @@ public class RecordService {
         Record record = recordRepository.findByMemberIdAndDate(memberId, now())
                 .orElseGet(() -> new Record(now(), 0));
 
-        return addRecord(memberId, rec, record);
+        addRecord(memberId, rec, record);
+        return recordToInsertResponse(memberId, record);
     }
 
-    private InsertResponse addRecord(long memberId, long rec, Record record) {
+    private void addRecord(long memberId, long rec, Record record) {
         //운동 시간 추가
         record.addRecord(rec);
 
         //해당 날짜 첫 운동기록인 경우
         if (record.getMember() == null) {
             Member findMember = memberService.findById(memberId);
-
             record.setMember(findMember);
+
             recordRepository.save(record);
         }
-
-        return recordToInsertResponse(memberId, record);
     }
 }

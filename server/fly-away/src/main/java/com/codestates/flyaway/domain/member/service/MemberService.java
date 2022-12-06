@@ -96,6 +96,7 @@ public class MemberService {
                 .mapToLong(Record::getRec)
                 .sum();
     }
+
     /**
      * 회원 탈퇴
      */

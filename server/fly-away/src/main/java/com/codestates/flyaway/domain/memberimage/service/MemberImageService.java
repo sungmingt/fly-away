@@ -7,7 +7,6 @@ import com.codestates.flyaway.domain.member.entity.Member;
 import com.codestates.flyaway.domain.memberimage.entity.MemberImage;
 import com.codestates.flyaway.domain.memberimage.repository.MemberImageRepository;
 import com.codestates.flyaway.global.exception.BusinessLogicException;
-import com.codestates.flyaway.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -77,6 +76,7 @@ public class MemberImageService {
      * 이미지 반환
      * @return 이미지 url
      */
+    @Transactional(readOnly = true)
     public String getImageUrl(Member member) {
         return Optional.ofNullable(member.getMemberImage())
                 .map(MemberImage::getFileUrl)

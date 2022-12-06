@@ -59,7 +59,8 @@ public class Member extends Auditable {
         this.password = password;
     }
 
-    public Member(String name, String email, String password, List<Record> records) {
+    public Member(Long id, String name, String email, String password, List<Record> records) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
