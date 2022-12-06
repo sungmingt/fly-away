@@ -31,9 +31,8 @@ public class VideoService {
         Member member = memberService.findById(request.getMemberId());
         Video video = new Video(request.getVideoId(), request.getTitle(), request.getUrl(), member);
 
-        //동일 영상 시청 기록이 있는 경우 -> 중복 제거를 위해 기존 기록 삭제
-        videoRepository.findByVideoIdAndMemberId(request.getVideoId(), request.getMemberId())
-                        .ifPresent(videoRepository::delete);
+        //기존 기록 삭제
+        deleteExRecord(request.getVideoId(), request.getMemberId());
 
         //저장
         Video saved = videoRepository.save(video);
@@ -44,10 +43,21 @@ public class VideoService {
      * 최근 영상 목록 조회
      * @param memberId
      */
+    @Transactional(readOnly = true)
     public List<VideoList> getRecent(long memberId) {
         return videoRepository.findRecent(memberId)
                 .stream()
                 .map(VideoList::toVideoList)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 동일 영상 시청 기록이 있는 경우 -> 중복 제거를 위해 기존 기록 삭제
+     * @param videoId
+     * @param memberId
+     */
+    private void deleteExRecord(String videoId, Long memberId) {
+        videoRepository.findByVideoIdAndMemberId(videoId, memberId)
+                .ifPresent(videoRepository::delete);
     }
 }
