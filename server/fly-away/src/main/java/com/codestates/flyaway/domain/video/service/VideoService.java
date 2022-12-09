@@ -28,11 +28,14 @@ public class VideoService {
      * 영상 시청 -> 최근 영상 목록 업데이트
      */
     public AddResponse addRecent(AddRequest request) {
-        Member member = memberService.findById(request.getMemberId());
-        Video video = new Video(request.getVideoId(), request.getTitle(), request.getUrl(), member);
+        Long memberId = request.getMemberId();
+        String videoId = request.getVideoId();
+
+        Member member = memberService.findById(memberId);
+        Video video = new Video(videoId, request.getTitle(), request.getUrl(), member);
 
         //기존 기록 삭제
-        deleteExRecord(request.getVideoId(), request.getMemberId());
+        deleteExRecord(videoId, memberId);
 
         //저장
         Video saved = videoRepository.save(video);
@@ -44,7 +47,7 @@ public class VideoService {
      * @param memberId
      */
     @Transactional(readOnly = true)
-    public List<VideoList> getRecent(long memberId) {
+    public List<VideoList> getRecent(Long memberId) {
         return videoRepository.findRecent(memberId)
                 .stream()
                 .map(VideoList::toVideoList)

@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import static com.codestates.flyaway.web.record.dto.RecordDto.*;
 import static org.springframework.http.HttpStatus.*;
@@ -21,7 +21,7 @@ public class RecordController {
     @ApiOperation(value = "운동 시간 기록", notes = "운동영상 시청 시간을 회원의 운동 기록에 반영")
     @ResponseStatus(value = CREATED)
     @PostMapping("/{memberId}")
-    public InsertResponse save(@NotEmpty @PathVariable long memberId,
+    public InsertResponse save(@NotNull @PathVariable Long memberId,
                                @Validated @RequestBody InsertRequest recordDto) {
         return recordService.save(memberId, recordDto);
     }
