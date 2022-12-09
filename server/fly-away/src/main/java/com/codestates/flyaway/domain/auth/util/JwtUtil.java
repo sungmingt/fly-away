@@ -84,11 +84,26 @@ public class JwtUtil {
         return JWT.decode(token).getExpiresAt().before(new Date());
     }
 
+    /**
+     * 만료 시간 확인
+     */
     public Long getExpiration(String token) {
         return JWT.decode(token).getExpiresAt().getTime() - System.currentTimeMillis();
     }
 
+    /**
+     * payload 반환
+     */
     public String getPayload(String token) {
         return JWT.decode(token).getClaim(EMAIL).asString();
+    }
+
+    /**
+     * refresh token 비교
+     */
+    public void checkSameness(String inputRefreshToken, String exRefreshToken) {
+        if (!inputRefreshToken.equals(exRefreshToken)) {
+            throw new BusinessLogicException(REFRESH_TOKEN_INVALID);
+        }
     }
 }

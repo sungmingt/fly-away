@@ -87,9 +87,7 @@ public class AuthService {
         String exRefreshToken = redisUtil.getData(email);
 
         //refreshToken 유효성 검증
-        if (!refreshToken.equals(exRefreshToken)) {
-            throw new BusinessLogicException(REFRESH_TOKEN_INVALID);
-        }
+        jwtUtil.checkSameness(refreshToken, exRefreshToken);
 
         //access/refresh token 재발급
         String accessToken = jwtUtil.createAccessToken(email);
