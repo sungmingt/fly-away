@@ -100,15 +100,16 @@
 
 ### 1. 단위 테스트
 
-<img width="494" alt="화면 캡처 2022-10-23 171017" src="https://user-images.githubusercontent.com/95558880/197381522-a7c629ed-183c-41dd-826b-61dea2ccf6c9.png">
+<img width="386" alt="image" src="https://user-images.githubusercontent.com/95558880/206747964-71538b81-dea6-440b-a792-fa7833c54fbd.png">
 
 <br>
 
 ### 2. 시나리오 테스트
+
 <img width="437" alt="main project member, record large test 2" src="https://user-images.githubusercontent.com/95558880/196962581-fb3ad9b0-9b85-4ead-bb4b-bbe1d713ace7.png">
 <img width="544" alt="main auth test 성공 2" src="https://user-images.githubusercontent.com/95558880/201518352-cd651312-cd69-41f3-b7db-a6259a87c5ce.png">
 
-- 추가적으로 사용자의 유스케이스를 테스트하기 위해 ```회원 가입 - 운동 기록``` 까지 이어지는 시나리오 테스트를 진행했습니다.
+- 추가적으로 사용자의 유스케이스를 테스트하기 위해 ```회원 가입 - 운동 기록``` 까지 이어지는 시나리오 테스트 진행
 
 <br><br>
 
