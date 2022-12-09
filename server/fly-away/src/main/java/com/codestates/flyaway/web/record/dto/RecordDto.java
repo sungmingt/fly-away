@@ -18,17 +18,17 @@ public class RecordDto {
     public static class InsertRequest {
         @Positive
         @NotNull
-        private long record;
+        private Long record;
     }
 
     @Getter
     @NoArgsConstructor @AllArgsConstructor
     public static class InsertResponse {
-        private long memberId;
+        private Long memberId;
         private LocalDate date;
-        private long record;
+        private Long record;
 
-        public static InsertResponse recordToInsertResponse(long memberId, Record record) {
+        public static InsertResponse recordToInsertResponse(Long memberId, Record record) {
             return new InsertResponse(
                     memberId,
                     record.getDate(),
@@ -40,6 +40,6 @@ public class RecordDto {
     @NoArgsConstructor @AllArgsConstructor
     public static class RecordProfileResponse {
         private LocalDate date;
-        private long record;
+        private Long record;
     }
 }

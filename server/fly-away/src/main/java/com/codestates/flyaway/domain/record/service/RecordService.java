@@ -24,7 +24,7 @@ public class RecordService {
      * 운동 시간 기록
      * @return 회원 id, 기록 정보(날짜, 운동시간)
      */
-    public InsertResponse save(long memberId, InsertRequest insertDto) {
+    public InsertResponse save(Long memberId, InsertRequest insertDto) {
         long rec = insertDto.getRecord();
         Record record = recordRepository.findByMemberIdAndDate(memberId, now())
                 .orElseGet(() -> new Record(now(), 0));
@@ -33,7 +33,7 @@ public class RecordService {
         return recordToInsertResponse(memberId, record);
     }
 
-    private void addRecord(long memberId, long rec, Record record) {
+    private void addRecord(Long memberId, long rec, Record record) {
         //운동 시간 추가
         record.addRecord(rec);
 

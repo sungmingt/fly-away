@@ -37,7 +37,7 @@ class RecordServiceTest {
     void newRecordTest() {
         //given
         Member member = new Member(1L, "kim", "member1@gmail.com", "pw");
-        InsertRequest request = new InsertRequest(1800);
+        InsertRequest request = new InsertRequest(1800L);
 
         given(recordRepository.findByMemberIdAndDate(anyLong(), eq(now())))
                 .willReturn(Optional.empty());
@@ -61,7 +61,7 @@ class RecordServiceTest {
         Member member = new Member(1L, "kim", "member1@gmail.com", "pw");
         Record record = new Record(now(), 500);
 
-        InsertRequest request = new InsertRequest(1800);
+        InsertRequest request = new InsertRequest(1800L);
 
         given(recordRepository.findByMemberIdAndDate(anyLong(), eq(now())))
                 .willReturn(Optional.of(record));
