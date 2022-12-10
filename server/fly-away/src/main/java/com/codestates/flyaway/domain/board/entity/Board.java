@@ -22,10 +22,10 @@ import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
 
+@Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class Board extends Auditable {
 
     @Id
@@ -38,14 +38,14 @@ public class Board extends Auditable {
     @NotNull
     private String content;
 
-    private int viewCount;
-    private int likeCount;
-    private int commentCount;
+    private Integer viewCount;
+    private Integer likeCount;
+    private Integer commentCount;
 
     @OneToMany(mappedBy = "board", cascade = ALL)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "board", fetch = EAGER, cascade = ALL)
+    @OneToMany(mappedBy = "board", cascade = ALL)
     private List<BoardImage> images = new ArrayList<>();
 
     @OneToMany(mappedBy = "board", cascade = ALL)
@@ -89,7 +89,7 @@ public class Board extends Auditable {
         this.commentCount++;
     }
 
-    public void addLikeCount() {
+    public void like() {
         this.likeCount++;
     }
 

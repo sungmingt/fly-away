@@ -11,7 +11,6 @@ import com.codestates.flyaway.domain.likes.repository.LikesRepository;
 import com.codestates.flyaway.domain.member.entity.Member;
 import com.codestates.flyaway.domain.member.service.MemberService;
 import com.codestates.flyaway.global.exception.BusinessLogicException;
-import com.codestates.flyaway.web.board.dto.BoardDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -96,6 +95,7 @@ public class BoardService {
         if(!Objects.equals(board.getMember().getId(), deleteDto.getMemberId())) {
             throw new BusinessLogicException(NOT_AUTHORIZED);
         }
+
         boardImageRepository.deleteAll(boardImageRepository.findAllByBoardId(deleteDto.getBoardId()));
         boardRepository.delete(board);
     }
@@ -106,7 +106,7 @@ public class BoardService {
                 () -> new BusinessLogicException(ARTICLE_NOT_FOUND));
     }
 
-    public boolean doLike(Long boardId, Long memberId) {
+    public Boolean doLike(Long boardId, Long memberId) {
         boolean likeResult;
 
         Member member = memberService.findById(memberId);
@@ -115,11 +115,11 @@ public class BoardService {
         Optional<Likes> savedLikes = likesRepository.findByBoardAndMember(board, member);
 
         if(savedLikes.isPresent()) {
-            likesRepository.findByBoardAndMember(board, member).ifPresent(id -> likesRepository.deleteAll());
+            likesRepository.findByBoardAndMember(board, member).ifPresent(likesRepository::delete);
             board.dislike();
             likeResult = false;
         }else {
-            board.addLikeCount();
+            board.like();
             likeResult = true;
             likesRepository.save(new Likes(board, member));
         }
@@ -128,7 +128,7 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public boolean readLike(Long boardId, Long memberId) {
+    public boolean checkLike(Long boardId, Long memberId) {
         Member member = memberService.findById(memberId);
         Board board = findById(boardId);
 

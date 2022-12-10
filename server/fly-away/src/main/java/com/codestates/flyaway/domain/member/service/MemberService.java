@@ -34,12 +34,10 @@ public class MemberService {
         String email = joinRequest.getEmail();
         String password = joinRequest.getPassword();
 
-        checkEmail(email);
-        checkPassword(password);
         verifyEmail(email);
+        checkPassword(password);
 
         joinRequest.setPassword(encode(password));
-
         Member member = joinRequest.toMember();
         Member savedMember = memberRepository.save(member);
 
@@ -66,7 +64,7 @@ public class MemberService {
      * @return 이미지 파일
      */
     @Transactional(readOnly = true)
-    public String getImageUrl(long memberId) {
+    public String getImageUrl(Long memberId) {
         Member member = findById(memberId);
         return memberImageService.getImageUrl(member);
     }
@@ -76,7 +74,7 @@ public class MemberService {
      * @return 회원 프로필 정보
      */
     @Transactional(readOnly = true)
-    public MemberProfileResponse findByIdFetch(long memberId) {
+    public MemberProfileResponse findByIdFetch(Long memberId) {
         Member findMember = memberRepository.findByIdFetch(memberId)
                 .orElseThrow(() -> new BusinessLogicException(MEMBER_NOT_FOUND));
 
@@ -100,7 +98,7 @@ public class MemberService {
     /**
      * 회원 탈퇴
      */
-    public void delete(long memberId) {
+    public void delete(Long memberId) {
         Member member = findById(memberId);
         memberRepository.delete(member);
     }
@@ -109,7 +107,7 @@ public class MemberService {
      * 단순 조회 재사용 메서드
      */
     @Transactional(readOnly = true)
-    public Member findById(long memberId) {
+    public Member findById(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessLogicException(MEMBER_NOT_FOUND));
     }
@@ -119,6 +117,7 @@ public class MemberService {
      */
     @Transactional(readOnly = true)
     public void verifyEmail(String email) {
+        checkEmail(email);
         if (memberRepository.existsByEmail(email)) {
             throw new BusinessLogicException(EMAIL_ALREADY_EXISTS);
         }
