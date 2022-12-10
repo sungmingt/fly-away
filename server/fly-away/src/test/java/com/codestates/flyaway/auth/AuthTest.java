@@ -10,6 +10,8 @@ import com.codestates.flyaway.web.auth.dto.LoginDto.LoginRequest;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.Stream;
 
@@ -35,6 +37,7 @@ class AuthTest {
     private RedisUtil redisUtil;
 
     private String accessToken;
+    private String refreshToken;
 
     @DisplayName("로그인/로그아웃 - access/refresh token 검증")
     @TestFactory
@@ -43,27 +46,29 @@ class AuthTest {
         final String email = "jordan123@gmail.com";
         final String password = "jd1234!@";
 
-        Member member = new Member(name, email, encode(password));
+        Member member = new Member(1L, name, email, encode(password));
         memberRepository.save(member);
 
         return Stream.of(
-                dynamicTest("로그인 - access token 생성 / refresh token 저장", () -> {
+                dynamicTest("로그인 - access/refresh token 생성 + refresh token DB 저장", () -> {
                     //given
                     LoginRequest request = new LoginRequest(email, password);
 
                     //when
-                    String token = authService.login(request).getAccessToken();
+                    String accToken = authService.login(request).getAccessToken();
+                    String refToken = authService.login(request).getRefreshToken();
 
                     //then
-                    accessToken = token.replace(PREFIX, "");
-                    String refreshToken = redisUtil.getData(request.getEmail()).replace(PREFIX, "");
+                    accessToken = accToken.replace(PREFIX, "");
+                    refreshToken = refToken.replace(PREFIX, "");
+                    String refreshTokenFromDB = redisUtil.getData(request.getEmail()).replace(PREFIX, "");
 
                     //access 토큰이 유효해야 한다.
                     assertThat(JWT.decode(accessToken).getClaim(EMAIL).asString())
                             .isEqualTo(request.getEmail());
 
                     //refresh 토큰이 DB에 저장되어야 한다.
-                    assertThat(refreshToken).isNotNull();
+                    assertThat(refreshTokenFromDB).isNotNull();
 
                     //refresh 토큰이 유효해야 한다.
                     assertThat(JWT.decode(refreshToken).getClaim(EMAIL).asString())
