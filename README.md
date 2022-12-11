@@ -219,18 +219,6 @@ Content-Type: application/json
 <br><br>
 
 
-## 📌 Scale-Out을 고려한 개발
-
-개발 초기에 Session과 파일 업로드를 구현하던 도중, 데이터가 특정 서버에 저장(종속)될 경우 생기는 문제점과 이를 해결하는 방법에 대해 알게 되었습니다.
-
-- AWS S3에 파일 업로드
-- session clustering -> token 방식
-
-서버 개수가 늘어나 다중 서버 환경이 되더라도 정상적으로 서비스가 유지될 수 있는 환경을 만들었습니다.
-
-<br><br>
-
-
 ## 📌 프로젝트에서 특별히 집중한 부분 / 개선한 부분
 
 - 코드가 ```nullsafe``` 하도록 특별히 주의를 기울였습니다.
@@ -244,6 +232,5 @@ Content-Type: application/json
   
 
 <br><br>
-
 
 
